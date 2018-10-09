@@ -99,13 +99,12 @@
     \mainmatter
         
     \subfile{sections/introduction.tex}
-    %\subfile{sections/coding-theory-basics.tex}
-    %\subfile{sections/linear-block-codes.tex}
-    %\subfile{sections/visualisation.tex}
-    %\subfile{sections/summary-and-conclusion.tex}
-    %\subfile{sections/references.bibtex}
-    
-    
+    \subfile{sections/coding-theory-basics.tex}
+    \subfile{sections/linear-block-codes.tex}
+    \subfile{sections/visualisation.tex}
+    \subfile{sections/summary-and-conclusion.tex}
+
+
     % APPENDIX 
     %----------------------------------------------
     %\appendix
@@ -113,6 +112,10 @@
     
     % BACK 
     %----------------------------------------------
-    %\backmatter
+    \backmatter
+    
+    \addcontentsline{toc}{chapter}{References}
+    \bibliographystyle{apalike}
+    \bibliography{references}
 
 \end{document}
