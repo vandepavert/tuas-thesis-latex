@@ -6,9 +6,20 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 \usepackage{graphicx}
+\usepackage{xifthen}
 \usepackage{appendix}
 \usepackage{lastpage}
+
+% LaTeX cannot handle images itself
+%----------------------------------------------
 \graphicspath{{images/}{../images/}}
+
+\newcommand{\maxwidth}[2][\linewidth]{% \maxwidth[<max hlen>]{<stuff>}
+  \setbox0=\hbox{#2}% Store image in box0
+  \ifthenelse{\dimtest{\wd0}>{#1}}%
+    {\resizebox{#1}{!}{#2}}% Scale object to fit within \linewidth
+    {\usebox0}% Use original (unaltered in width) object
+}
 
 %  Initialise nomenclature to show List of Symbols and Notations
 %----------------------------------------------
