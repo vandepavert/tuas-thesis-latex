@@ -52,23 +52,24 @@
 
 
     \section{Basics of Data Communication}
-    A sender transmits a message through a channel to a receiver. The channel in these cases could be air when usin a wireless network or an ethernet cable. Noise may appear on these channels, so in order to receive the message with as few errors as possible, idealy the sender should use high power signal amplification and the channel should be as short as possible. However, in normal situations however these are not viable solutions. GSM telephones have in fact very small batteries and are rather energy efficient and the ethernet cable in a building can be up to 100 meters before an active repeater or switch has to amplify the signal. In order to use as little energy as possible and transmit over a long distance, codewords have to be encoded, as shown in Illustration 1.1. It is then transmitted over a channel where errors may be introduced. The received codeword needs to be decoded into the received message.
+    A sender transmits a message through a channel to a receiver. The channel in these cases could be air when usin a wireless network or an ethernet cable. Noise may appear on these channels, so in order to receive the message with as few errors as possible, idealy the sender should use high power signal amplification and the channel should be as short as possible. However, in normal situations however these are not viable solutions. GSM telephones have in fact very small batteries and are rather energy efficient and the ethernet cable in a building can be up to 100 meters before an active repeater or switch has to amplify the signal. In order to use as little energy as possible and transmit over a long distance, codewords have to be encoded, as shown in \Cref{fig:digital_transmission_system}. It is then transmitted over a channel where errors may be introduced. The received codeword needs to be decoded into the received message.
 
-    \begin{figure}
+    \begin{figure}[htp]
         \begin{center}
             \maxwidth{\includegraphics{digital_transmission_system}}
         \end{center}
         \caption{Digital transmission system}
+        \label{fig:digital_transmission_system}
     \end{figure}
 
     \paragraph{}
-    The probability that codeword r is received if codeword c is transmitted can be expressed as P(r$|$c) . In Illustration 1.2, a model of a binary symmetric channel (BSC) shows the event that a 1 is transmitted. There is a probability that 0 is received. The transmission is unaltered with a probability of 1-p (Bossert 1999).
+    The probability that codeword r is received if codeword c is transmitted can be expressed as \textit{P}(\textit{r$|$c}). In \Cref{fig:binary_symmetric_channel}, a model of a binary symmetric channel (BSC) shows the event that a 1 is transmitted. There is a probability that 0 is received. The transmission is unaltered with a probability of 1-p (Bossert 1999).
 
-    \begin{figure}
+    \begin{figure}[htp]
         \begin{center}
             \maxwidth{\includegraphics{binary_symmetric_channel}}
         \end{center}
-        \caption{Model of the binary symmetric channel (BSC)}
+        \caption{Model of the binary symmetric channel (BSC)}        \label{fig:binary_symmetric_channel}
     \end{figure}
 
 
