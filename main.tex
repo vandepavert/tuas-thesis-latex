@@ -5,16 +5,28 @@
 \usepackage{blindtext}
 \usepackage{amsmath}
 \usepackage{amssymb}
-\usepackage{graphicx}
 \usepackage{xifthen}
 \usepackage[noabbrev]{cleveref}
 \usepackage{appendix}
 \usepackage{lastpage}
+\usepackage[backend=biber, style=apa, sorting=ynt]{biblatex}
+
+\usepackage{csquotes}
+
+% Format paragraph
+%----------------------------------------------
+\usepackage{titlesec}
+%\titlespacing{\paragraph}{left margin}{space before (vertical)}{space after (horizontal)}
+\titlespacing{\paragraph}{0pt}{0.25\baselineskip}{0em}
+
+% show the margins so that the indentation is clearly shown.
+%----------------------------------------------
+\usepackage[showframe]{geometry}
 
 % LaTeX cannot handle images itself
 %----------------------------------------------
+\usepackage{graphicx}
 \graphicspath{{images/}{../images/}}
-
 \newcommand{\maxwidth}[2][\linewidth]{% \maxwidth[<max hlen>]{<stuff>}
   \setbox0=\hbox{#2}% Store image in box0
   \ifthenelse{\dimtest{\wd0}>{#1}}%
@@ -22,13 +34,13 @@
     {\usebox0}% Use original (unaltered in width) object
 }
 
-%  Initialise nomenclature to show List of Symbols and Notations
+% Initialise nomenclature to show List of Symbols and Notations
 %----------------------------------------------
 \usepackage{nomencl}
 \makenomenclature
 \renewcommand{\nomname}{List of Symbols and Notations}
 \renewcommand{\nompreamble}{Polynomials have their respective degree shown in brackets.}
- 
+
 % Create groups
 %----------------------------------------------
 \usepackage{etoolbox}
@@ -43,7 +55,10 @@
 %----------------------------------------------
 \newcommand{\nomunit}[1]{%
     \renewcommand{\nomentryend}{\hspace*{\fill}(#1)}}
+
+% Add BibTex references
 %----------------------------------------------
+\addbibresource{references.bib}
 
 
 % copy matter parts from book class
@@ -79,42 +94,42 @@
     %----------------------------------------------
     \frontmatter
     
-    \maketitle
-    
-    % Introductory chapters
-    % Abstract
-    \begin{abstract}
-        \subfile{sections/abstract.tex}
-    \end{abstract}
-    
-    % Acknowledgements
-    \subfile{sections/acknowledgements.tex}
-    
-    % Table of contents
-    \tableofcontents
-    
-    % List of figures
-    \listoffigures
-    
-    % List of tables
-    \listoftables
-    
-    % List of symbols and notations
-    \subfile{sections/notations.tex}
-    
-    % List of abbreviations
-    \subfile{sections/abbreviations.tex}
-    
+      \maketitle
+
+      % Introductory chapters
+
+      % Abstract
+      \subfile{sections/abstract.tex}
+
+      % Acknowledgements
+      \subfile{sections/acknowledgements.tex}
+
+      % Table of contents
+      \tableofcontents
+
+      % List of figures
+      \listoffigures
+
+      % List of tables
+      \listoftables
+
+      % List of symbols and notations
+      %\include{section/notations.tex} %fixme
+      \printnomenclature
+
+      % List of abbreviations
+      \subfile{sections/abbreviations.tex}
+
     
     % MAIN 
     %----------------------------------------------
     \mainmatter
         
-    \subfile{sections/introduction.tex}
-    \subfile{sections/coding-theory-basics.tex}
-    \subfile{sections/linear-block-codes.tex}
-    \subfile{sections/visualisation.tex}
-    \subfile{sections/summary-and-conclusion.tex}
+      \subfile{sections/introduction.tex}
+      \subfile{sections/coding-theory-basics.tex}
+      \subfile{sections/linear-block-codes.tex}
+      \subfile{sections/visualisation.tex}
+      \subfile{sections/summary-and-conclusion.tex}
 
 
     % APPENDIX 
@@ -126,8 +141,7 @@
     %----------------------------------------------
     \backmatter
     
-    \addcontentsline{toc}{chapter}{References}
-    \bibliographystyle{apalike}
-    \bibliography{references}
+      \addcontentsline{toc}{chapter}{References}
+      \printbibliography
 
 \end{document}

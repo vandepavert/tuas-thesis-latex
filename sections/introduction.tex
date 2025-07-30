@@ -11,10 +11,8 @@
         Any system of symbols and rules for expressing information or instructions in a form usable by a computer or other machine for processing or transmitting information.
     \end{quote}
 
-    \paragraph{}
-    During World War II, and even before, as far back as classic times, messages had to be send to allies but it was crucial they were unintelligible to the enemy. This field of cryptology was born out of necessity, a sense of survival. After the war, before governments could render the research obsolete, the people behind cryptology research showed that cryptology and eventually the theory of error detecting and correcting could be put into practical use. We can see that the field of cryptology is adjacent to and often-times overlapping with the field of coding theory (Trappe \& Washington 2006).
+    During World War II, and even before, as far back as classic times, messages had to be send to allies but it was crucial they were unintelligible to the enemy. This field of cryptology was born out of necessity, a sense of survival. After the war, before governments could render the research obsolete, the people behind cryptology research showed that cryptology and eventually the theory of error detecting and correcting could be put into practical use. We can see that the field of cryptology is adjacent to and often-times overlapping with the field of coding theory \autocite{trappe2006introduction}.
 
-    \paragraph{}
     This thesis will briefly look at some pioneers and their achievements, then goes through the basics of coding theory and addresses the mathematics behind coding in chapter 2. While chapter 3 goes into the theory of linear block codes, it will be the visualisation in chapter 4 that explains how burst errors can be detected and corrected, on e.g. a Compact Disc. Physical damage like dust or scratches or material impurities can cause erasures or burst errors in the data stream. With forward error correction techniques like Reed-Solomon codes these interrupts in the data stream can be detected and corrected.
 
 
@@ -23,32 +21,28 @@
 
 
     \subsection{Shannon}
-    Claude Shannon (1916–2001) was an electronic engineer and mathematician and during the Second World War he joined Bell Labs to work on cryptography. His work was closely related to coding theory and eventually led to publication of the article named A Mathematical Theory of Communication in 1948, which is now regarded as one of the founding works of communication theory. Presently, not only do many regard him as the father of information theory, but he is also credited with establishing digital computer and digital circuit design theory while he was a master's student at MIT (Bose 2008).
+    Claude Shannon (1916–2001) was an electronic engineer and mathematician and during the Second World War he joined Bell Labs to work on cryptography. His work was closely related to coding theory and eventually led to publication of the article named A Mathematical Theory of Communication in 1948, which is now regarded as one of the founding works of communication theory. Presently, not only do many regard him as the father of information theory, but he is also credited with establishing digital computer and digital circuit design theory while he was a master's student at MIT \autocite{bose2008information}.
 
 
     \subsection{Hamming}
     Richard Hamming (1915–1998) was a contemporary and colleague of Shannon at Bell Labs. While doing research on cryptology, Hamming became interested in the idea of error correcting codes while working on a relay computer out of normal office hours. Unfortunately there were no computer operators available to react to an alarm in case an error was detected. Hamming had to devise a code that would not only detect an error, but would also be able to correct it automatically, instead of just ringing the alarm. These codes are used to add redundancy to data which aid the detection and correction of errors. Chapter 3 explains the Hamming code, which was a first in the the field we now know as coding theory.
 
-    \paragraph{}
     Although the Hamming code was referred to by Shannon in 1948, patent considerations prevented its independent publication until 1950.
 
 
     \subsection{Hocquenghem, Bose and Ray-Chaudhuri}
-    Alexis Hocquenghem (1908?–1990) was a French mathematician, whose article “Codes correcteurs d'erreurs” from 1959 mentioned codes that he described as a “generalization of Hamming's work” (Hocquenghem 1959).
+    Alexis Hocquenghem (1908?–1990) was a French mathematician, whose article “Codes correcteurs d'erreurs” from 1959 mentioned codes that he described as a “generalization of Hamming's work” \autocite{hocquenghem1999codes}.
 
-    \paragraph{}
-    Independently from Hocquenghem, Ph.D. adviser Raj Bose (1901–1987) and his student Dwijendra Ray-Chaudhuri (1933– ) published “On a class of error correcting binary group codes” in 1960. This class of linear block codes is named after Bose, Ray-Chaudhuri and Hocquenghem and became known as BCH codes (Wicker \& Bhargava 1999).
-
+    Independently from Hocquenghem, Ph.D. adviser Raj Bose (1901–1987) and his student Dwijendra Ray-Chaudhuri (1933– ) published “On a class of error correcting binary group codes” in 1960. This class of linear block codes is named after Bose, Ray-Chaudhuri and Hocquenghem and became known as BCH codes \autocite{wicker1999reed}.
 
     \subsection{Reed and Solomon}
     Irving Reed (1923– ) is an American mathematician and engineer who is best known for co-inventing a class of algebraic codes known as Reed-Solomon (RS) codes in collaboration with Gustave Solomon (1930–1996). RS codes are seen as a special case of the larger class of BCH codes but it wasn't until almost a decade later, by regarding them as cyclic BCH codes, that an efficient decoding algorithm gave them the potential to their widespread application.
 
 
     \subsection{Berlekamp and Massey}
-    Elwyn Berlekamp (1940– ) is a professor emeritus of mathematics, electrical engineering and computer science at the University of California, Berkely. While he was studying electrical engineering at MIT one of his Ph.D. advisers was Claude Shannon. Berlekamp invented an algorithm for decoding BCH codes in 1968, but it was James Massey (1934– ), an information theorist and cryptographer, who simplified this algorithm in 1968 which we know as the Berlekamp-Massey algorithm (Massey 1969).
+    Elwyn Berlekamp (1940– ) is a professor emeritus of mathematics, electrical engineering and computer science at the University of California, Berkely. While he was studying electrical engineering at MIT one of his Ph.D. advisers was Claude Shannon. Berlekamp invented an algorithm for decoding BCH codes in 1968, but it was James Massey (1934– ), an information theorist and cryptographer, who simplified this algorithm in 1968 which we know as the Berlekamp-Massey algorithm \autocite{massey1969shift}.
 
-    \paragraph{}
-    This algorythm made it possible to develop a fast and efficient decoder with a linear feedback shift register (LSFR), but it was not until 1982 with the advent of the mass production of the Compact Disc that the digital information age as we know it was started. Today RS codes are widely in use in many applications that involve data transmission, like computer networks: TCP/IP; telephony: GSM, GPRS, UMTS; digital video broadcasting: DVB, and data storage, like Hard-drives in computers; memory cards in cameras and telephones and optical storage like Compact Discs (CD), Digital Versitile Discs (DVD) and Blu-ray Discs (BD).
+        This algorythm made it possible to develop a fast and efficient decoder with a linear feedback shift register (LSFR), but it was not until 1982 with the advent of the mass production of the Compact Disc that the digital information age as we know it was started. Today RS codes are widely in use in many applications that involve data transmission, like computer networks: TCP/IP; telephony: GSM, GPRS, UMTS; digital video broadcasting: DVB, and data storage, like Hard-drives in computers; memory cards in cameras and telephones and optical storage like Compact Discs (CD), Digital Versitile Discs (DVD) and Blu-ray Discs (BD).
 
 
     \section{Basics of Data Communication}
@@ -63,7 +57,7 @@
     \end{figure}
 
     \paragraph{}
-    The probability that codeword r is received if codeword c is transmitted can be expressed as \textit{P}(\textit{r$|$c}). In \Cref{fig:binary_symmetric_channel}, a model of a binary symmetric channel (BSC) shows the event that a 1 is transmitted. There is a probability that 0 is received. The transmission is unaltered with a probability of 1-p (Bossert 1999).
+    The probability that codeword r is received if codeword c is transmitted can be expressed as \textit{P}(\textit{r$|$c}). In \Cref{fig:binary_symmetric_channel}, a model of a binary symmetric channel (BSC) shows the event that a 1 is transmitted. There is a probability that 0 is received. The transmission is unaltered with a probability of 1-p \autocite{bossert1999channel}.
 
     \begin{figure}[htp]
         \begin{center}
