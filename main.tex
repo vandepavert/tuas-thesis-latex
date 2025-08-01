@@ -20,12 +20,12 @@
 \titlespacing{\paragraph}{0pt}{0.25\baselineskip}{0em}
 
 
-% show the margins so that the indentation is clearly shown.
+% DEBUGGING: show the margins so that the indentation is clearly shown.
 %----------------------------------------------
 \usepackage[showframe]{geometry}
 
 
-% scale images to stay within margins
+% Scaled images to stay within margins
 %----------------------------------------------
 \usepackage{graphicx}
 \graphicspath{{images/}{../images/}}
@@ -36,9 +36,11 @@
     {\usebox0}% Use original (unaltered in width) object
 }
 
+
 % Vector grapics
 %----------------------------------------------
 \usepackage{tikz}
+\usetikzlibrary{positioning}
 
 
 % Initialise nomenclature to show List of Symbols and Notations
