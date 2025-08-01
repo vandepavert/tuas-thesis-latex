@@ -10,8 +10,8 @@
 \usepackage{appendix}
 \usepackage{lastpage}
 \usepackage[backend=biber, style=apa, sorting=ynt]{biblatex}
-
 \usepackage{csquotes}
+
 
 % Format paragraph
 %----------------------------------------------
@@ -19,11 +19,13 @@
 %\titlespacing{\paragraph}{left margin}{space before (vertical)}{space after (horizontal)}
 \titlespacing{\paragraph}{0pt}{0.25\baselineskip}{0em}
 
+
 % show the margins so that the indentation is clearly shown.
 %----------------------------------------------
 \usepackage[showframe]{geometry}
 
-% LaTeX cannot handle images itself
+
+% scale images to stay within margins
 %----------------------------------------------
 \usepackage{graphicx}
 \graphicspath{{images/}{../images/}}
@@ -34,14 +36,21 @@
     {\usebox0}% Use original (unaltered in width) object
 }
 
+% Vector grapics
+%----------------------------------------------
+\usepackage{tikz}
+
+
 % Initialise nomenclature to show List of Symbols and Notations
 %----------------------------------------------
 \usepackage{nomencl}
 \makenomenclature
+
 \renewcommand{\nomname}{List of Symbols and Notations}
 \renewcommand{\nompreamble}{Polynomials have their respective degree shown in brackets.}
 
-% Create groups
+
+% Create nomenclature groups
 %----------------------------------------------
 \usepackage{etoolbox}
 \renewcommand\nomgroup[1]{%
@@ -51,6 +60,7 @@
   \ifstrequal{#1}{C}{Number Sets}{}}}%
 ]}
  
+
 % This will add the degrees of the polynomials
 %----------------------------------------------
 \newcommand{\nomunit}[1]{%
@@ -114,7 +124,7 @@
       \listoftables
 
       % List of symbols and notations
-      %\include{section/notations.tex} %fixme
+      \input{sections/notations.tex}
       \printnomenclature
 
       % List of abbreviations
