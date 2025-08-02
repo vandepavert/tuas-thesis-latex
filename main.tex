@@ -9,8 +9,13 @@
 \usepackage[noabbrev]{cleveref}
 \usepackage{appendix}
 \usepackage{lastpage}
-\usepackage[backend=biber, style=apa, sorting=ynt]{biblatex}
 \usepackage{csquotes}
+\usepackage{verbatim}
+
+
+% DEBUGGING: show the margins so that the indentation is clearly shown.
+%----------------------------------------------
+\usepackage[showframe]{geometry}
 
 
 % Format paragraph
@@ -20,9 +25,11 @@
 \titlespacing{\paragraph}{0pt}{0.25\baselineskip}{0em}
 
 
-% DEBUGGING: show the margins so that the indentation is clearly shown.
+% Format table
 %----------------------------------------------
-\usepackage[showframe]{geometry}
+\usepackage{adjustbox}
+\usepackage{caption}
+\captionsetup[table]{skip=5pt}
 
 
 % Scaled images to stay within margins
@@ -68,8 +75,10 @@
 \newcommand{\nomunit}[1]{%
     \renewcommand{\nomentryend}{\hspace*{\fill}(#1)}}
 
+
 % Add BibTex references
 %----------------------------------------------
+\usepackage[backend=biber, style=apa, sorting=nty]{biblatex}
 \addbibresource{references.bib}
 
 

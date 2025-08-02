@@ -1,7 +1,403 @@
-\chapter{Coding Theory Basics}
+\documentclass[../main.tex]{subfiles}
 
-\section{Linear Algebra}
-\section{Galois Fields}
-\section{Extension Fields}
-\section{Polynomials}
-\section{Vector pace}
+\begin{document}
+
+    \chapter{Coding Theory Basics}
+
+    \section{Linear Algebra}
+    Mathematicians developed their coding theory using linear algebra, which works with set of numbers or fields. These numbers can be added, subtracted, multiplied or divided. Fields, like integers, or the set of natural numbers ${\mathbb{N} = \{0, 1, 2, ...\}}$ is an infinite field; we could always imagine its largest element and add 1 to it.
+
+    Information and code can be seen as elements in a finite field which comes with some advantages when using the binary number system.
+
+
+    \section{Galois Fields}
+    A finite field ${F_q}$ is a field ${F}$ which has a finite numer of elements and ${q}$ is the order of the field. This finite field is often called a Galois field, after the French mathematician Évariste Galois (1811 – 1832) and is denoted ${GF(q)}$. For the purpose this thesis we consider only binary field ${GF(2)}$ and its extension fields ${GF(2^m)}$ where ${m \in \{2, 3, 4, ...\}}$.
+
+    The following is always valid for all numbers in a binary Galois field \autocite{blahut1983theory}:
+
+    \begin{itemize}
+        \item Fields contain 0 or 1.
+        \item Adding two numbers gives one number in the set.
+        \item Subtracting two numbers gives one number in the set.
+        \item Multiplying one number gives one number in the set.
+        \item Dividing one number by 1, as division by 0 is not allowed, gives one number in the set.
+        \item The distributive law, ${(a+b)c = ac+bc}$, holds for all elements in the field.
+    \end{itemize}
+
+    A finite field, by definition, has to contain at least two numbers and therefore the smallest Galois field contains the elements or numbers 0 and 1, and is defined as ${GF(2)=\{0,1\}}$. Since we have a finite field with only aforementioned binary numbers, the addition of 1 and 1 in \Cref{table:addition_gf(2)} cannot be equal to 2, but instead has to be defined as 1+1=0 where 2 is congruent to 0 modulo 2, or ${2 \equiv 0}$ (mod 2) \autocite{hill1986first}. For subtraction we take as the additive inverse of ${-a}$. This inverse can be found by ${a+b=c}$ and write it ${b=c-a}$ which is equal to ${b=c+(-a)}$. Substituting a and b with 0 and 1, we can see that the additive inverse of 0 is 0 and the additive inverse of 1 is 1.
+
+    \begin{table}[htp]
+        \begin{center}
+            \adjustbox{valign=t}{%
+                \begin{minipage}[t]{0.4\textwidth}
+                    \begin{center}
+                        \caption{Addition for ${GF(2)}$.}
+                        \label{table:addition_gf(2)}
+                        \begin{tabular}{c | c c}
+                            \textbf{+} & \textbf{0} & \textbf{1} \\
+                            \hline
+                            \textbf{0} & 0          & 1 \\
+                            \textbf{1} & 1          & 0 \\
+                        \end{tabular}
+                    \end{center}
+                \end{minipage}
+            }\quad
+            \adjustbox{valign=t}{%
+                \begin{minipage}[t]{0.4\textwidth}
+                    \begin{center}
+                        \caption{Multiplication for ${GF(2)}$.}
+                        \label{table:multiplication_gf(2)}
+                        \begin{tabular}{c | c c}
+                            \textbf{*} & \textbf{0} & \textbf{1} \\
+                            \hline
+                            \textbf{0} & 0          & 0 \\
+                            \textbf{1} & 0          & 1 \\
+                        \end{tabular}
+                    \end{center}
+                \end{minipage}
+            }
+        \end{center}
+    \end{table}
+
+    Division is a multiplication with its multiplicative inverse of which we can write as:
+
+    \begin{equation*}
+        \dfrac{a}{b}=c
+    \end{equation*}
+
+    \noindent
+    Therefore ${a \cdot b^{-1} = c}$ which results in ${a = c \cdot b}$. Because ${a \cdot a ^{-1} = 1}$, the multiplicative inverse of 1 is 1. Division is always possible for all except 0. Because division by zero is not defined and ${0 \cdot a^{-1} \neq 1}$, zero has no multiplicative inverse.
+
+
+    \section{Extension Fields}
+    Finite fields exist for all prime numbers ${q}$ and for all ${q^m}$ where ${q}$ is prime and ${m}$ is a positive integer. ${GF(q)}$ is a sub-field of ${GF(q^m)}$ and as such the elements of ${GF(q)}$ are a sub-set of the elements of ${GF(q^m)}$, therefore ${GF(q^m)}$ is an extension field of ${GF(q)}$.
+
+    \begin{table}[htp]
+        \begin{center}
+            \adjustbox{valign=t}{%
+                \begin{minipage}[t]{0.4\textwidth}
+                    \begin{center}
+                        \caption{Addition for ${GF(4)=\{0,1,2,3\}}$.} %fixme
+                        \label{table:addition_gf(4)}
+                        \begin{tabular}{c | c c c c}
+                            \textbf{+}  & \textbf{0}    & \textbf{1}    & \textbf{2}    & \textbf{3} \\
+                            \hline
+                            \textbf{0}  & 0             & 1             & 2             & 3 \\
+                            \textbf{1}  & 1             & 2             & 3             & 0 \\
+                            \textbf{2}  & 2             & 3             & 0             & 1 \\
+                            \textbf{3}  & 3             & 0             & 1             & 2 \\
+                        \end{tabular}
+                    \end{center}
+                \end{minipage}
+            }\quad
+            \adjustbox{valign=t}{%
+                \begin{minipage}[t]{0.4\textwidth}
+                    \begin{center}
+                        \caption{Multiplication for ${GF(4)=\{0,1,2,3\}}$.} %fixme
+                        \label{table:multiplication_gf(4)}
+                        \begin{tabular}{c | c c c c}
+                            \textbf{*}  & \textbf{0}    & \textbf{1}    & \textbf{2}    & \textbf{3} \\
+                            \hline
+                            \textbf{0}  & 0             & 0             & 0             & 0 \\
+                            \textbf{1}  & 0             & 1             & 2             & 3 \\
+                            \textbf{2}  & 0             & 2             & 0             & 2 \\
+                            \textbf{3}  & 0             & 3             & 2             & 1 \\
+                        \end{tabular}
+                    \end{center}
+                \end{minipage}
+            }
+        \end{center}
+    \end{table}
+
+    Consider ${GF(4)=\{0, 1, 2, 3\}}$ in \Cref{table:addition_gf(4)} and \Cref{table:multiplication_gf(4)}, which is not a Galois field because it is of order 4, which is not a prime. The element 2 has no multiplicative inverse and therefore we cannot divide by 2. Instead, we could define ${GF(4)=\{0, 1, a, b\}}$ with addition and multiplication as shown in \Cref{table:addition_gf(4)_ab} and \Cref{table:multiplication_gf(4)_ab}. Now all elements do have additive and multiplicative inverses.
+
+    \begin{table}[htp]
+        \begin{center}
+            \adjustbox{valign=t}{%
+                \begin{minipage}[t]{0.4\textwidth}
+                    \begin{center}
+                        \caption{Addition for ${GF(4)}$\newline${=\{0, 1, a, b\}}$.}
+                        \label{table:addition_gf(4)_ab}
+                        \begin{tabular}{c | c c c c}
+                            \textbf{+}  & \textbf{0}    & \textbf{1}    & \textbf{a}    & \textbf{b} \\
+                            \hline
+                            \textbf{0}  & 0             & 1             & a             & b \\
+                            \textbf{1}  & 1             & 0             & b             & a \\
+                            \textbf{a}  & a             & b             & 0             & 1 \\
+                            \textbf{b}  & b             & a             & 1             & 0 \\
+                        \end{tabular}
+                    \end{center}
+                \end{minipage}
+            }\quad
+            \adjustbox{valign=t}{%
+                \begin{minipage}[t]{0.4\textwidth}
+                    \begin{center}
+                        \caption{Multiplication for ${GF(4)}$\newline${=\{0, 1, a, b\}}$.}
+                        \label{table:multiplication_gf(4)_ab}
+                        \begin{tabular}{c | c c c c}
+                            \textbf{*}  & \textbf{0}    & \textbf{1}    & \textbf{a}    & \textbf{b} \\
+                            \hline
+                            \textbf{0}  & 0             & 0             & 0             & 0 \\
+                            \textbf{1}  & 0             & 1             & a             & b \\
+                            \textbf{a}  & 0             & a             & b             & 1 \\
+                            \textbf{b}  & 0             & b             & 1             & a \\
+                        \end{tabular}
+                    \end{center}
+                \end{minipage}
+            }
+        \end{center}
+    \end{table}
+
+    These extension fields are used to handle non-binary codes where code symbols are expressed as m-bit binary code symbols, For example, ${GF(4)}$ consists of four different two-bit symbols and ${GF(16)}$ of 16 hexadecimal symbols. To obtain multiplication for binary numbers are expressed as polynomials, they are multiplied and divided by the prime polynomial while the remainder is taken as result.
+
+
+    \section{Polynomials}
+    Let us we write ${GF(4)}$ as ${GF(2^2)}$ and take prime polynomial
+
+    \begin{equation*}
+        p(x) = x^2 + x + 1
+    \end{equation*}
+
+    \noindent
+    which is an irreducible polynomial of degree 2, which can be checked by multiplying ${p(x)}$ with polynomials of a lesser degree, like 1, ${x}$ and ${x+1}$ \autocite{blahut1983theory}.
+
+    \begin{table}[htp]
+        \begin{center}
+            \adjustbox{valign=t}{%
+                \begin{minipage}[t]{0.4\textwidth}
+                    \begin{center}
+                        \caption{Addition for ${GF(2^2)}$ in binary representation.}
+                        \label{table:addition_gf(2sq)_binary}
+                        \begin{tabular}{c | c c c c}
+                            \textbf{+}  & \textbf{00}   & \textbf{01}   & \textbf{10}   & \textbf{11} \\
+                            \hline
+                            \textbf{00} & 00            & 01            & 10            & 11 \\
+                            \textbf{01} & 01            & 00            & 11            & 01 \\
+                            \textbf{10} & 10            & 11            & 00            & 01 \\
+                            \textbf{11} & 11            & 10            & 01            & 00 \\
+                        \end{tabular}
+                    \end{center}
+                \end{minipage}
+            }\quad
+            \adjustbox{valign=t}{%
+                \begin{minipage}[t]{0.4\textwidth}
+                    \begin{center}
+                        \caption{Multiplication for ${GF(2^2)}$ in binary representation.}
+                        \label{table:multiplication_gf(2sq)_binary}
+                        \begin{tabular}{c | c c c c}
+                            \textbf{*}  & \textbf{00}   & \textbf{01}   & \textbf{10}   & \textbf{11} \\
+                            \hline
+                            \textbf{00} & 00            & 00            & 00            & 00 \\
+                            \textbf{01} & 00            & 01            & 10            & 11 \\
+                            \textbf{10} & 00            & 10            & 11            & 01 \\
+                            \textbf{11} & 00            & 11            & 01            & 10 \\
+                        \end{tabular}
+                    \end{center}
+                \end{minipage}
+            }
+        \end{center}
+    \end{table}
+
+    This gives us the structure of ${GF(2^2)}$ in \Cref{table:addition_gf(2sq)_binary} and \Cref{table:multiplication_gf(2sq)_binary}. Note that addition in a finite field is equivalent to the logic exclusive OR (XOR) operation and multiplication is equivalent to the logic AND. In  \Cref{table:addition_gf(2sq)_polynomial} and \Cref{table:multiplication_gf(2sq)_polynomial}, ${GF(2^2)}$ is represented in polynomial form.
+
+    \begin{table}[htp]
+        \begin{center}
+            \adjustbox{valign=t}{%
+                \begin{minipage}[t]{0.4\textwidth}
+                    \begin{center}
+                        \caption{Addition for ${GF(2^2)}$ in polynomial representation.}
+                        \label{table:addition_gf(2sq)_polynomial}
+                        \begin{tabular}{c | c c c c}
+                            \textbf{+}      & \textbf{0}    & \textbf{1}    & \textbf{x}    & \textbf{x+1} \\
+                            \hline
+                            \textbf{0}      & 0             & 1             & x             & x+1 \\
+                            \textbf{1}      & 1             & 0             & x+1           & x \\
+                            \textbf{x}      & x             & x+1           & 0             & 1 \\
+                            \textbf{x+1}    & x+1           & x             & 1             & 0 \\
+                        \end{tabular}
+                    \end{center}
+                \end{minipage}
+            }\quad
+            \adjustbox{valign=t}{%
+                \begin{minipage}[t]{0.4\textwidth}
+                    \begin{center}
+                        \caption{Multiplication for ${GF(2^2)}$ in polynomial representation.}
+                        \label{table:multiplication_gf(2sq)_polynomial}
+                        \begin{tabular}{c | c c c c}
+                            \textbf{+}      & \textbf{0}    & \textbf{1}    & \textbf{x}    & \textbf{x+1} \\
+                            \hline
+                            \textbf{0}      & 0             & 0             & 0             & 0 \\
+                            \textbf{1}      & 0             & 1             & x             & x+1 \\
+                            \textbf{x}      & 0             & x             & x+1           & 1 \\
+                            \textbf{x+1}    & 0             & x+1           & 1             & x \\
+                        \end{tabular}
+                    \end{center}
+                \end{minipage}
+            }
+        \end{center}
+    \end{table}
+
+    In order to describe an extension field ${GF(q^m)}$ it is useful to know its a primitive polynomial ${p(x)}$, where the degree of ${p(x)}$ is equal to ${m}$. For example,
+
+    \begin{equation*}
+         GF(16) = GF(2^4) = \{0000, 0001, 0010, ..., 1111\}
+    \end{equation*}
+
+    \noindent
+    is a finite field that contains 16 4-bit code symbols. Addition is analogue to the example above. Multiplication can be obtained firstly by writing the symbols as polynomials to express which positions in these 4-bit codes are non-zero and secondly by using modulo 2 addition of coefficients in addition and multiplication.
+
+    \noindent
+    Let ${\alpha}$ be defined as a root of polynomial ${p(x)}$, such that we can write:
+
+    \begin{equation*}
+         p(\alpha) = 0
+    \end{equation*}
+
+    \noindent
+    Thus for ${GF(16)}$ with its irreducible polynomial ${p(x) = x^4 + x + 1}$ we can write:
+
+    \begin{align*}
+        \alpha^4 + \alpha + 1 &= 0 \\
+        \alpha^4 &= 0 - \alpha - 1
+    \end{align*}
+
+    \noindent
+    We have already noted that subtraction is the same as addition in a binary finite field, so:
+
+    \begin{equation*}
+        \alpha^4 = \alpha + 1
+    \end{equation*}
+
+    \noindent
+    Therefore the polynomial of exponential ${\alpha^4}$ is ${\alpha + 1}$. From there we can calculate the polynomial for ${\alpha^5}$ by:
+
+    \begin{align*}
+        \alpha^5 &= \alpha \cdot \alpha^4 \\
+                 &= \alpha \cdot (\alpha + 1) \\
+                 &= \alpha^2 + \alpha
+    \end{align*}
+
+    \noindent
+    Now we can take ${\alpha^k = \alpha \cdot \alpha^{k - 1}}$ for every ${k < 2^m - 1}$, where ${m = 4}$ in our example. Calculations for ${\alpha^5}$ and ${\alpha^6}$ in \Cref{table:galois_field_notations} are straight forward, however, polynomials of degree 4 may be reduced to ones of less than a degree of 4:
+
+    \begin{align*}
+        \alpha^7 &= \alpha \cdot \alpha^6 \\
+                 &= \alpha \cdot (\alpha^3 + \alpha^2) \\
+                 &= \alpha^4 + \alpha^3
+    \end{align*}
+
+    \noindent
+    Substituting ${\alpha^4}$ with ${\alpha + 1}$ gives
+
+    \begin{align*}
+        \alpha^7 &= \alpha + 1 + \alpha^3 \\
+                 &= \alpha^3 + \alpha + 1
+    \end{align*}
+
+     \noindent
+    so the polynomial of ${\alpha^6}$ is ${x^3 + x + 1}$. The remaining exponentials can be obtained in the same manner while keeping each polynomial of degree 3 or less because we can substitute ${\alpha^4}$, a polynomial of degree 4, with ${\alpha + 1}$, which is of degree 1. Note that ${\alpha^{15} = 1}$. Fermats's Little Theorem says that ${q^{m - 1} \equiv 1 (mod\ m)}$, where ${q}$ is prime and ${m}$ is a positive integer \autocite{blahut1983theory} \autocite{bossert1999channel}.
+
+    \begin{table} %fixme
+        \begin{center}
+            \caption{Elements of Galois Field ${GF(2^4)}$ in different notations.}
+            \label{table:galois_field_notations}
+            \begin{tabular}{c | r | r | c | c | c}
+                \textbf{Exponential} & \textbf{Algebraic} & \textbf{Polynomial} & \textbf{Bin} & \textbf{Dec} & \textbf{Hex} \\
+                \hline
+                0              & 0                                     & 0              & 0000  & 0     & 0 \\
+                $\alpha^0$     & 1                                     & 1              & 0001  & 1     & 1 \\
+                $\alpha^1$     & $\alpha$                              & $x$            & 0010  & 2     & 2 \\
+                $\alpha^2$     & $\alpha^2$                            & $x^2$          & 0100  & 4     & 4 \\
+                $\alpha^3$     & $\alpha^3$                            & $x^3$          & 1000  & 8     & 8 \\
+                $\alpha^4$     & $\alpha+1$                            & $x+1$          & 0011  & 3     & 3 \\
+                $\alpha^5$     & $\alpha(\alpha+1)$                    & $x^2+x$        & 0110  & 6     & 6 \\
+                $\alpha^6$     & $\alpha(\alpha^2+\alpha)$             & $x^3+x^2$      & 1100  & 12    & C \\
+                $\alpha^7$     & $\alpha(\alpha^3+\alpha^2)$           & $x^3+x+1$      & 1011  & 11    & B \\
+                $\alpha^8$     & $\alpha(\alpha^3+\alpha+1)$           & $x^2+1$        & 0101  & 5     & 5 \\
+                $\alpha^9$     & $\alpha(\alpha^2+1)$                  & $x^3+x$        & 1010  & 10    & A \\
+                $\alpha^{10}$  & $\alpha(\alpha^3+\alpha)$             & $x^2+x+1$      & 0111  & 7     & 7 \\
+                $\alpha^{11}$  & $\alpha(\alpha^2+\alpha+1)$           & $x^3+x^2+x$    & 1110  & 14    & E \\
+                $\alpha^{12}$  & $\alpha(\alpha^3+\alpha^2+\alpha)$    & $x^3+x^2+x+1$  & 1111  & 15    & F \\
+                $\alpha^{13}$  & $\alpha(\alpha^3+\alpha^2+\alpha+1)$  & $x^3+x^2+1$    & 1101  & 13    & D \\
+                $\alpha^{14}$  & $\alpha(\alpha^3+\alpha^2+1)$         & $x^3+1$        & 1001  & 9     & 9 \\
+            \end{tabular}
+        \end{center}
+    \end{table}
+
+    % force pagebreak due to large table above
+    \newpage
+
+
+    \section{Vector Space}
+    Linear codes can be represented as sets of vectors. Let us define a vector space ${GF(q^m)}$. This is a vector space of a finite dimension, $m$. The codewords are $q$-ary sets of $m$-elements or $m$-tuples which form the coordinates of the endpoints of the vectors. \Cref{fig:codeword_vectors} presents two of such $m$-dimensional vector spaces. In such a vector space every codeword can be presented as a the sum of two vectors give another vector in the same vector space \autocite{bose2008information}. For example, ${GF(2^2)}$ is a two-dimensional vector space. It has four binary vectors. Take vectors $v_1=[0,1]$, $v_2=[1,0]$ and $v_3=[1,1]$, then $v_1+v_2=[0,1]+[1,0]=[1,1]$, which is a vector in the same space.
+
+    \begin{figure}[htp]
+        \begin{center}
+            \adjustbox{valign=t}{%
+                \begin{minipage}[t]{0.3\textwidth}
+                    \begin{tikzpicture}[
+                        node distance = 5em and 5em,
+                        ]
+                        %Nodes
+                        \node[]    (topleft)                               {(0,1)};
+                        \node[]    (topright)      [right=of topleft]      {(1,1)};
+                        \node[]    (bottomleft)    [below=of topleft]      {(0,0)};
+                        \node[]    (bottomright)   [right=of bottomleft]   {(1,0)};
+
+                        %Axes
+                        \draw[-latex,line width=1pt] (bottomleft) -- (3.5,-2.35) node[right] {$x_1$};
+                        \draw[-latex,line width=1pt] (bottomleft) -- (0,0.75) node[above] {$x_2$};
+
+                        %Lines
+                        \draw[dotted] (topleft) -- (topright) -- (bottomright);
+
+                        %Vector
+                        \draw[-latex,line width=1pt] (bottomleft) -- (topright);
+                    \end{tikzpicture}
+                \end{minipage}
+            }\quad
+            \adjustbox{valign=t}{%
+                \begin{minipage}[t]{0.4\textwidth}
+                    \begin{tikzpicture}[
+                        node distance = 5em and 5em,
+                        ]
+                        %Nodes
+                        \node[]    (backtopleft)                                    {(0,1,0)};
+                        \node[]    (backtopright)       [right=of backtopleft]      {(1,1,0)};
+                        \node[]    (backbottomleft)     [below=of backtopleft]      {(0,0,0)};
+                        \node[]    (backbottomright)    [right=of backbottomleft]   {(1,0,0)};
+
+                        \node[]    (fronttopleft)       [shift={(-1, -1)}]          {(0,1,1)};
+                        \node[]    (fronttopright)      [right=of fronttopleft]     {(1,1,1)};
+                        \node[]    (frontbottomleft)    [below=of fronttopleft]     {(0,0,1)};
+                        \node[]    (frontbottomright)   [right=of frontbottomleft]  {(1,0,1)};
+
+                        %Axes
+                        \draw[-latex,line width=1pt] (backbottomleft) -- (4,-2.35) node[right] {$x_1$};
+                        \draw[-latex,line width=1pt] (backbottomleft) -- (-1.38,-3.75) node[left] {$x_2$};
+                        \draw[-latex,line width=1pt] (backbottomleft) -- (0,0.75) node[above] {$x_3$};
+
+                        %Lines
+                        \draw[dotted] (backtopleft) -- (backtopright) -- (backbottomright);
+
+                        \draw[dotted] (fronttopleft) -- (fronttopright) -- (frontbottomright) -- (frontbottomleft) -- (fronttopleft);
+
+                        \draw[dotted] (backtopleft) -- (fronttopleft);
+                        \draw[dotted] (backtopright) -- (fronttopright);
+                        \draw[dotted] (backbottomright) -- (frontbottomright);
+
+                        %Vector
+                        \draw[-latex,line width=1pt] (backbottomleft) -- (fronttopleft)  ;
+                    \end{tikzpicture}
+                \end{minipage}
+            }
+        \end{center}
+        \caption{Codewords $[1,1]$ and $[0,1,1]$ as vectors over $GF(2)$}
+        \label{fig:codeword_vectors}
+    \end{figure}
+
+    Vectors $v_1, v_2, ..., v_k$ are linear independent if there is not a single set of scalars $a_i \neq 0$, such that $a_1v_1+a_2v_2+...+a_kv_k=0$. For example, vectors $[0,1]$ and $[1,0]$ are linearly independent, but $[0,1]$ and $[1,1]$ are linear dependent vectors.
+
+
+
+\end{document}
