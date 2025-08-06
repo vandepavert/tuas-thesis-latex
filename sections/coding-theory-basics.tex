@@ -1,4 +1,5 @@
 \documentclass[../main.tex]{subfiles}
+\setcounter{chapter}{1}
 
 \begin{document}
 
@@ -29,31 +30,31 @@
     \begin{table}[htp]
         \begin{center}
             \adjustbox{valign=t}{%
-                \begin{minipage}[t]{0.4\textwidth}
-                    \begin{center}
-                        \caption{Addition for ${GF(2)}$.}
-                        \label{table:addition_gf(2)}
-                        \begin{tabular}{c | c c}
-                            \textbf{+} & \textbf{0} & \textbf{1} \\
-                            \hline
-                            \textbf{0} & 0          & 1 \\
-                            \textbf{1} & 1          & 0 \\
-                        \end{tabular}
-                    \end{center}
+                \begin{minipage}[t]{0.475\textwidth}
+                    \raggedright
+                    \caption{Addition for ${GF(2)}$.}
+                    \label{table:addition_gf(2)}
+                    \centering
+                    \begin{tabular}{c | c c}
+                        \textbf{+} & \textbf{0} & \textbf{1} \\
+                        \hline
+                        \textbf{0} & 0          & 1 \\
+                        \textbf{1} & 1          & 0 \\
+                    \end{tabular}
                 \end{minipage}
             }\quad
             \adjustbox{valign=t}{%
-                \begin{minipage}[t]{0.4\textwidth}
-                    \begin{center}
-                        \caption{Multiplication for ${GF(2)}$.}
-                        \label{table:multiplication_gf(2)}
-                        \begin{tabular}{c | c c}
-                            \textbf{*} & \textbf{0} & \textbf{1} \\
-                            \hline
-                            \textbf{0} & 0          & 0 \\
-                            \textbf{1} & 0          & 1 \\
-                        \end{tabular}
-                    \end{center}
+                \begin{minipage}[t]{0.475\textwidth}
+                    \raggedright
+                    \caption{Multiplication for ${GF(2)}$.}
+                    \label{table:multiplication_gf(2)}
+                    \centering
+                    \begin{tabular}{c | c c}
+                        \textbf{*} & \textbf{0} & \textbf{1} \\
+                        \hline
+                        \textbf{0} & 0          & 0 \\
+                        \textbf{1} & 0          & 1 \\
+                    \end{tabular}
                 \end{minipage}
             }
         \end{center}
@@ -75,35 +76,35 @@
     \begin{table}[htp]
         \begin{center}
             \adjustbox{valign=t}{%
-                \begin{minipage}[t]{0.4\textwidth}
-                    \begin{center}
-                        \caption{Addition for ${GF(4)=\{0,1,2,3\}}$.} %fixme
-                        \label{table:addition_gf(4)}
-                        \begin{tabular}{c | c c c c}
-                            \textbf{+}  & \textbf{0}    & \textbf{1}    & \textbf{2}    & \textbf{3} \\
-                            \hline
-                            \textbf{0}  & 0             & 1             & 2             & 3 \\
-                            \textbf{1}  & 1             & 2             & 3             & 0 \\
-                            \textbf{2}  & 2             & 3             & 0             & 1 \\
-                            \textbf{3}  & 3             & 0             & 1             & 2 \\
-                        \end{tabular}
-                    \end{center}
+                \begin{minipage}[t]{0.47\textwidth}
+                    \raggedright
+                    \caption{Addition for ${GF(4)=\{0,1,2,3\}}$.}
+                    \label{table:addition_gf(4)}
+                    \centering
+                    \begin{tabular}{c | c c c c}
+                        \textbf{+}  & \textbf{0}    & \textbf{1}    & \textbf{2}    & \textbf{3} \\
+                        \hline
+                        \textbf{0}  & 0             & 1             & 2             & 3 \\
+                        \textbf{1}  & 1             & 2             & 3             & 0 \\
+                        \textbf{2}  & 2             & 3             & 0             & 1 \\
+                        \textbf{3}  & 3             & 0             & 1             & 2 \\
+                    \end{tabular}
                 \end{minipage}
             }\quad
             \adjustbox{valign=t}{%
-                \begin{minipage}[t]{0.4\textwidth}
-                    \begin{center}
-                        \caption{Multiplication for ${GF(4)=\{0,1,2,3\}}$.} %fixme
-                        \label{table:multiplication_gf(4)}
-                        \begin{tabular}{c | c c c c}
-                            \textbf{*}  & \textbf{0}    & \textbf{1}    & \textbf{2}    & \textbf{3} \\
-                            \hline
-                            \textbf{0}  & 0             & 0             & 0             & 0 \\
-                            \textbf{1}  & 0             & 1             & 2             & 3 \\
-                            \textbf{2}  & 0             & 2             & 0             & 2 \\
-                            \textbf{3}  & 0             & 3             & 2             & 1 \\
-                        \end{tabular}
-                    \end{center}
+                \begin{minipage}[t]{0.485\textwidth}
+                    \raggedright
+                    \caption{Multiplication for \\${GF(4)=\{0,1,2,3\}}$.} %fixme
+                    \label{table:multiplication_gf(4)}
+                    \centering
+                    \begin{tabular}{c | c c c c}
+                        \textbf{*}  & \textbf{0}    & \textbf{1}    & \textbf{2}    & \textbf{3} \\
+                        \hline
+                        \textbf{0}  & 0             & 0             & 0             & 0 \\
+                        \textbf{1}  & 0             & 1             & 2             & 3 \\
+                        \textbf{2}  & 0             & 2             & 0             & 2 \\
+                        \textbf{3}  & 0             & 3             & 2             & 1 \\
+                    \end{tabular}
                 \end{minipage}
             }
         \end{center}
@@ -114,35 +115,35 @@
     \begin{table}[htp]
         \begin{center}
             \adjustbox{valign=t}{%
-                \begin{minipage}[t]{0.4\textwidth}
-                    \begin{center}
-                        \caption{Addition for ${GF(4)}$\newline${=\{0, 1, a, b\}}$.}
-                        \label{table:addition_gf(4)_ab}
-                        \begin{tabular}{c | c c c c}
-                            \textbf{+}  & \textbf{0}    & \textbf{1}    & \textbf{a}    & \textbf{b} \\
-                            \hline
-                            \textbf{0}  & 0             & 1             & a             & b \\
-                            \textbf{1}  & 1             & 0             & b             & a \\
-                            \textbf{a}  & a             & b             & 0             & 1 \\
-                            \textbf{b}  & b             & a             & 1             & 0 \\
-                        \end{tabular}
-                    \end{center}
+                \begin{minipage}[t]{0.475\textwidth}
+                    \raggedright
+                    \caption{Addition for ${GF(4)}$\newline${=\{0, 1, a, b\}}$.}
+                    \label{table:addition_gf(4)_ab}
+                    \centering
+                    \begin{tabular}{c | c c c c}
+                        \textbf{+}  & \textbf{0}    & \textbf{1}    & \textbf{a}    & \textbf{b} \\
+                        \hline
+                        \textbf{0}  & 0             & 1             & a             & b \\
+                        \textbf{1}  & 1             & 0             & b             & a \\
+                        \textbf{a}  & a             & b             & 0             & 1 \\
+                        \textbf{b}  & b             & a             & 1             & 0 \\
+                    \end{tabular}
                 \end{minipage}
             }\quad
             \adjustbox{valign=t}{%
-                \begin{minipage}[t]{0.4\textwidth}
-                    \begin{center}
-                        \caption{Multiplication for ${GF(4)}$\newline${=\{0, 1, a, b\}}$.}
-                        \label{table:multiplication_gf(4)_ab}
-                        \begin{tabular}{c | c c c c}
-                            \textbf{*}  & \textbf{0}    & \textbf{1}    & \textbf{a}    & \textbf{b} \\
-                            \hline
-                            \textbf{0}  & 0             & 0             & 0             & 0 \\
-                            \textbf{1}  & 0             & 1             & a             & b \\
-                            \textbf{a}  & 0             & a             & b             & 1 \\
-                            \textbf{b}  & 0             & b             & 1             & a \\
-                        \end{tabular}
-                    \end{center}
+                \begin{minipage}[t]{0.475\textwidth}
+                    \raggedright
+                \caption{Multiplication for ${GF(4)}$\newline${=\{0, 1, a, b\}}$.}
+                    \label{table:multiplication_gf(4)_ab}
+                    \centering
+                    \begin{tabular}{c | c c c c}
+                        \textbf{*}  & \textbf{0}    & \textbf{1}    & \textbf{a}    & \textbf{b} \\
+                        \hline
+                        \textbf{0}  & 0             & 0             & 0             & 0 \\
+                        \textbf{1}  & 0             & 1             & a             & b \\
+                        \textbf{a}  & 0             & a             & b             & 1 \\
+                        \textbf{b}  & 0             & b             & 1             & a \\
+                    \end{tabular}
                 \end{minipage}
             }
         \end{center}
@@ -164,35 +165,36 @@
     \begin{table}[htp]
         \begin{center}
             \adjustbox{valign=t}{%
-                \begin{minipage}[t]{0.4\textwidth}
-                    \begin{center}
-                        \caption{Addition for ${GF(2^2)}$ in binary representation.}
-                        \label{table:addition_gf(2sq)_binary}
-                        \begin{tabular}{c | c c c c}
-                            \textbf{+}  & \textbf{00}   & \textbf{01}   & \textbf{10}   & \textbf{11} \\
-                            \hline
-                            \textbf{00} & 00            & 01            & 10            & 11 \\
-                            \textbf{01} & 01            & 00            & 11            & 01 \\
-                            \textbf{10} & 10            & 11            & 00            & 01 \\
-                            \textbf{11} & 11            & 10            & 01            & 00 \\
-                        \end{tabular}
-                    \end{center}
+                \begin{minipage}[t]{0.475\textwidth}
+                   \raggedright
+                    \caption{Addition for ${GF(2^2)}$ in binary representation.}
+                    \label{table:addition_gf(2sq)_binary}
+                    \centering
+                    \begin{tabular}{c | c c c c}
+                        \textbf{+}  & \textbf{00}   & \textbf{01}   & \textbf{10}   & \textbf{11} \\
+                        \hline
+                        \textbf{00} & 00            & 01            & 10            & 11 \\
+                        \textbf{01} & 01            & 00            & 11            & 01 \\
+                        \textbf{10} & 10            & 11            & 00            & 01 \\
+                        \textbf{11} & 11            & 10            & 01            & 00 \\
+                    \end{tabular}
+
                 \end{minipage}
             }\quad
             \adjustbox{valign=t}{%
-                \begin{minipage}[t]{0.4\textwidth}
-                    \begin{center}
-                        \caption{Multiplication for ${GF(2^2)}$ in binary representation.}
-                        \label{table:multiplication_gf(2sq)_binary}
-                        \begin{tabular}{c | c c c c}
-                            \textbf{*}  & \textbf{00}   & \textbf{01}   & \textbf{10}   & \textbf{11} \\
-                            \hline
-                            \textbf{00} & 00            & 00            & 00            & 00 \\
-                            \textbf{01} & 00            & 01            & 10            & 11 \\
-                            \textbf{10} & 00            & 10            & 11            & 01 \\
-                            \textbf{11} & 00            & 11            & 01            & 10 \\
-                        \end{tabular}
-                    \end{center}
+                \begin{minipage}[t]{0.475\textwidth}
+                   \raggedright
+                    \caption{Multiplication for ${GF(2^2)}$ in binary representation.}
+                    \label{table:multiplication_gf(2sq)_binary}
+                    \centering
+                    \begin{tabular}{c | c c c c}
+                        \textbf{*}  & \textbf{00}   & \textbf{01}   & \textbf{10}   & \textbf{11} \\
+                        \hline
+                        \textbf{00} & 00            & 00            & 00            & 00 \\
+                        \textbf{01} & 00            & 01            & 10            & 11 \\
+                        \textbf{10} & 00            & 10            & 11            & 01 \\
+                        \textbf{11} & 00            & 11            & 01            & 10 \\
+                    \end{tabular}
                 \end{minipage}
             }
         \end{center}
@@ -203,35 +205,35 @@
     \begin{table}[htp]
         \begin{center}
             \adjustbox{valign=t}{%
-                \begin{minipage}[t]{0.4\textwidth}
-                    \begin{center}
-                        \caption{Addition for ${GF(2^2)}$ in polynomial representation.}
-                        \label{table:addition_gf(2sq)_polynomial}
-                        \begin{tabular}{c | c c c c}
-                            \textbf{+}      & \textbf{0}    & \textbf{1}    & \textbf{x}    & \textbf{x+1} \\
-                            \hline
-                            \textbf{0}      & 0             & 1             & x             & x+1 \\
-                            \textbf{1}      & 1             & 0             & x+1           & x \\
-                            \textbf{x}      & x             & x+1           & 0             & 1 \\
-                            \textbf{x+1}    & x+1           & x             & 1             & 0 \\
-                        \end{tabular}
-                    \end{center}
+                \begin{minipage}[t]{0.475\textwidth}
+                    \raggedright
+                    \caption{Addition for ${GF(2^2)}$ in polynomial representation.}
+                    \label{table:addition_gf(2sq)_polynomial}
+                    \centering
+                    \begin{tabular}{c | c c c c}
+                        \textbf{+}      & \textbf{0}    & \textbf{1}    & \textbf{x}    & \textbf{x+1} \\
+                        \hline
+                        \textbf{0}      & 0             & 1             & x             & x+1 \\
+                        \textbf{1}      & 1             & 0             & x+1           & x \\
+                        \textbf{x}      & x             & x+1           & 0             & 1 \\
+                        \textbf{x+1}    & x+1           & x             & 1             & 0 \\
+                    \end{tabular}
                 \end{minipage}
             }\quad
             \adjustbox{valign=t}{%
-                \begin{minipage}[t]{0.4\textwidth}
-                    \begin{center}
-                        \caption{Multiplication for ${GF(2^2)}$ in polynomial representation.}
-                        \label{table:multiplication_gf(2sq)_polynomial}
-                        \begin{tabular}{c | c c c c}
-                            \textbf{+}      & \textbf{0}    & \textbf{1}    & \textbf{x}    & \textbf{x+1} \\
-                            \hline
-                            \textbf{0}      & 0             & 0             & 0             & 0 \\
-                            \textbf{1}      & 0             & 1             & x             & x+1 \\
-                            \textbf{x}      & 0             & x             & x+1           & 1 \\
-                            \textbf{x+1}    & 0             & x+1           & 1             & x \\
-                        \end{tabular}
-                    \end{center}
+                \begin{minipage}[t]{0.475\textwidth}
+                   \raggedright
+                    \caption{Multiplication for ${GF(2^2)}$ in polynomial representation.}
+                    \label{table:multiplication_gf(2sq)_polynomial}
+                    \centering
+                    \begin{tabular}{c | c c c c}
+                        \textbf{+}      & \textbf{0}    & \textbf{1}    & \textbf{x}    & \textbf{x+1} \\
+                        \hline
+                        \textbf{0}      & 0             & 0             & 0             & 0 \\
+                        \textbf{1}      & 0             & 1             & x             & x+1 \\
+                        \textbf{x}      & 0             & x             & x+1           & 1 \\
+                        \textbf{x+1}    & 0             & x+1           & 1             & x \\
+                    \end{tabular}
                 \end{minipage}
             }
         \end{center}
