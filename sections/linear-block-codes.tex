@@ -9,9 +9,20 @@
     The Hamming weight $w_H(x)$ of a codeword or vector $x$ is defined as the amount of non-zero elements or vector coordinates, which ranges from zero to length $n$ of said codeword.
 
     \begin{equation*}
-        w_H(x) = \sum_{j=0}^{n-1} w_h(x_j), \text{where } w_h(x_j) = \begin{cases} 0 &\text{if } x_j = 0 \\ 1 &\text{if } x_j \neq 0 \end{cases}
+        w_H(x) = \sum_{j=0}^{n-1} w_H(x_j), \text{where } w_H(x_j) = \begin{cases} 0, &\text{if } x_j = 0 \\ 1, &\text{if } x_j \neq 0 \end{cases}
     \end{equation*}
 
+    The Hamming distance $d_H(x,y)$ between two codewords or vectors $x$ and $y$ is defined as amount of elements or coordinates where $x$ and $y$ differ.
+
+    \begin{equation*}
+        d_H(x,y) = \sum_{j=0}^{n-1} w_H(x_j+y_j), \text{where } w_H(x_j+y_j) = \begin{cases} 0, \text{if } x_j=y_j \\ 1, \text{if } x_j \neq y_j \end{cases}
+    \end{equation*}
+
+    \begin{equation*}
+        d_H(x,y) =  w_H(x,y)
+    \end{equation*}
+
+The minimum distance $d_min$ of code $C$ is the minimum distance between two different codewords. The minimum distance for linear codes is equal to the minimum weight \autocite{bossert1999channel}. However, a codeword containing only zeros and therefore having a distance of zero is disregarded as the minimum distance cannot be zero.
 
     \section{Singleton Bound}
 
