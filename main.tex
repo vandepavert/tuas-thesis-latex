@@ -48,7 +48,12 @@
 % Vector grapics
 %----------------------------------------------
 \usepackage{tikz}
-\usetikzlibrary{positioning}
+\usetikzlibrary{arrows.meta, calc, chains, positioning, 3d}
+\newcommand\ppbb{path picture bounding box}
+
+\makeatletter
+\tikzset{suppress join/.code={\def\tikz@after@path{}}}
+\makeatother
 
 
 % Initialise nomenclature to show List of Symbols and Notations

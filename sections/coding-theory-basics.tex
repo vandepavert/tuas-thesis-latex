@@ -341,67 +341,70 @@
     \section{Vector Space}
     Linear codes can be represented as sets of vectors. Let us define a vector space $GF(q^m)$. This is a vector space of a finite dimension, $m$. The codewords are $q$-ary sets of $m$-elements or $m$-tuples which form the coordinates of the endpoints of the vectors. \Cref{fig:codeword_vectors} presents two of such $m$-dimensional vector spaces. In such a vector space every codeword can be presented as a the sum of two vectors give another vector in the same vector space \autocite{bose2008information}. For example, $GF(2^2)$ is a two-dimensional vector space. It has four binary vectors. Take vectors $v_1=[0,1]$, $v_2=[1,0]$ and $v_3=[1,1]$, then $v_1+v_2=[0,1]+[1,0]=[1,1]$, which is a vector in the same space.
 
+
     \begin{figure}[htp]
-        \begin{center}
-            \adjustbox{valign=t}{%
-                \begin{minipage}[t]{0.3\textwidth}
-                    \begin{tikzpicture}[
-                        node distance = 5em and 5em,
-                        ]
-                        %Nodes
-                        \node[]    (topleft)                               {(0,1)};
-                        \node[]    (topright)      [right=of topleft]      {(1,1)};
-                        \node[]    (bottomleft)    [below=of topleft]      {(0,0)};
-                        \node[]    (bottomright)   [right=of bottomleft]   {(1,0)};
+        \centering
+        \begin{tikzpicture}[
+                         > = latex,
+                     scale = 3,
+                    domain = 0:1,
+                dot/.style = {circle, draw, fill, minimum size=1mm, inner sep=0mm, node contents={}},
+            ]
+            % grid
+            \draw[dotted, very thin,color=gray] (-0.1,-0.1) grid (1.1,1.1);
 
-                        %Axes
-                        \draw[-latex,line width=1pt] (bottomleft) -- (3.5,-2.35) node[right] {$x_1$};
-                        \draw[-latex,line width=1pt] (bottomleft) -- (0,0.75) node[above] {$x_2$};
+            % axes
+            \draw[->] (-0.2,0) -- (1.2,0) node[right] {$x_1$};
+            \draw[->] (0,-0.2) -- (0,1.2) node[above] {$x_2$};
 
-                        %Lines
-                        \draw[dotted] (topleft) -- (topright) -- (bottomright);
+            % nodes
+            \node (n00) at (0,0) [dot, label=below left:{(0,0)}];
+            \node (n01) at (0,1) [dot, label=below left:{(0,1)}];
+            \node (n10) at (1,0) [dot, label=below right:{(1,0)}];
+            \node (n11) at (1,1) [dot, label=below right:{(1,1)}];
 
-                        %Vector
-                        \draw[-latex,line width=1pt] (bottomleft) -- (topright);
-                    \end{tikzpicture}
-                \end{minipage}
-            }\quad
-            \adjustbox{valign=t}{%
-                \begin{minipage}[t]{0.4\textwidth}
-                    \begin{tikzpicture}[
-                        node distance = 5em and 5em,
-                        ]
-                        %Nodes
-                        \node[]    (backtopleft)                                    {(0,1,0)};
-                        \node[]    (backtopright)       [right=of backtopleft]      {(1,1,0)};
-                        \node[]    (backbottomleft)     [below=of backtopleft]      {(0,0,0)};
-                        \node[]    (backbottomright)    [right=of backbottomleft]   {(1,0,0)};
+            % vector
+            \draw[->] (n00) -- (n11);
+        \end{tikzpicture}
 
-                        \node[]    (fronttopleft)       [shift={(-1, -1)}]          {(0,1,1)};
-                        \node[]    (fronttopright)      [right=of fronttopleft]     {(1,1,1)};
-                        \node[]    (frontbottomleft)    [below=of fronttopleft]     {(0,0,1)};
-                        \node[]    (frontbottomright)   [right=of frontbottomleft]  {(1,0,1)};
 
-                        %Axes
-                        \draw[-latex,line width=1pt] (backbottomleft) -- (4,-2.35) node[right] {$x_1$};
-                        \draw[-latex,line width=1pt] (backbottomleft) -- (-1.38,-3.75) node[left] {$x_2$};
-                        \draw[-latex,line width=1pt] (backbottomleft) -- (0,0.75) node[above] {$x_3$};
+        % comment
+        \ifx true false
 
-                        %Lines
-                        \draw[dotted] (backtopleft) -- (backtopright) -- (backbottomright);
+        \begin{tikzpicture}[
+            node distance = 5em and 5em,
+            ]
+            %Nodes
+            \node[]    (backtopleft)                                    {(0,1,0)};
+            \node[]    (backtopright)       [right=of backtopleft]      {(1,1,0)};
+            \node[]    (backbottomleft)     [below=of backtopleft]      {(0,0,0)};
+            \node[]    (backbottomright)    [right=of backbottomleft]   {(1,0,0)};
 
-                        \draw[dotted] (fronttopleft) -- (fronttopright) -- (frontbottomright) -- (frontbottomleft) -- (fronttopleft);
+            \node[]    (fronttopleft)       [shift={(-1, -1)}]          {(0,1,1)};
+            \node[]    (fronttopright)      [right=of fronttopleft]     {(1,1,1)};
+            \node[]    (frontbottomleft)    [below=of fronttopleft]     {(0,0,1)};
+            \node[]    (frontbottomright)   [right=of frontbottomleft]  {(1,0,1)};
 
-                        \draw[dotted] (backtopleft) -- (fronttopleft);
-                        \draw[dotted] (backtopright) -- (fronttopright);
-                        \draw[dotted] (backbottomright) -- (frontbottomright);
+            %Axes
+            \draw[-latex,line width=1pt] (backbottomleft) -- (4,-2.35) node[right] {$x_1$};
+            \draw[-latex,line width=1pt] (backbottomleft) -- (-1.38,-3.75) node[left] {$x_2$};
+            \draw[-latex,line width=1pt] (backbottomleft) -- (0,0.75) node[above] {$x_3$};
 
-                        %Vector
-                        \draw[-latex,line width=1pt] (backbottomleft) -- (fronttopleft)  ;
-                    \end{tikzpicture}
-                \end{minipage}
-            }
-        \end{center}
+            %Lines
+            \draw[dotted] (backtopleft) -- (backtopright) -- (backbottomright);
+
+            \draw[dotted] (fronttopleft) -- (fronttopright) -- (frontbottomright) -- (frontbottomleft) -- (fronttopleft);
+
+            \draw[dotted] (backtopleft) -- (fronttopleft);
+            \draw[dotted] (backtopright) -- (fronttopright);
+            \draw[dotted] (backbottomright) -- (frontbottomright);
+
+            %Vector
+            \draw[-latex,line width=1pt] (backbottomleft) -- (fronttopleft)  ;
+        \end{tikzpicture}
+
+        \fi % end comment
+
         \caption{Codewords $[1,1]$ and $[0,1,1]$ as vectors over $GF(2)$}
         \label{fig:codeword_vectors}
     \end{figure}
