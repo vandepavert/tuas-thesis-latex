@@ -341,75 +341,84 @@
     \section{Vector Space}
     Linear codes can be represented as sets of vectors. Let us define a vector space $GF(q^m)$. This is a vector space of a finite dimension, $m$. The codewords are $q$-ary sets of $m$-elements or $m$-tuples which form the coordinates of the endpoints of the vectors. \Cref{fig:codeword_vectors} presents two of such $m$-dimensional vector spaces. In such a vector space every codeword can be presented as a the sum of two vectors give another vector in the same vector space \autocite{bose2008information}. For example, $GF(2^2)$ is a two-dimensional vector space. It has four binary vectors. Take vectors $v_1=[0,1]$, $v_2=[1,0]$ and $v_3=[1,1]$, then $v_1+v_2=[0,1]+[1,0]=[1,1]$, which is a vector in the same space.
 
+    Vectors $v_1, v_2, ..., v_k$ are linear independent if there is not a single set of scalars $a_i \neq 0$, such that $a_1v_1+a_2v_2+...+a_kv_k=0$. For example, vectors $[0,1]$ and $[1,0]$ are linearly independent, but $[0,1]$ and $[1,1]$ are linear dependent vectors.
 
     \begin{figure}[htp]
         \centering
-        \begin{tikzpicture}[
-                         > = latex,
-                     scale = 3,
-                    domain = 0:1,
-                dot/.style = {circle, draw, fill, minimum size=1mm, inner sep=0mm, node contents={}},
-            ]
-            % grid
-            \draw[dotted, very thin,color=gray] (-0.1,-0.1) grid (1.1,1.1);
+        \adjustbox{valign=t}{%
+            \begin{minipage}[t]{0.4\textwidth}
+                \begin{tikzpicture}[
+                                > = latex,
+                            scale = 3,
+                            domain = 0:1,
+                        dot/.style = {circle, draw, fill, minimum size=1mm, inner sep=0mm, node contents={}},
+                    ]
+                    % grid
+                    \draw[dotted, thin,color=gray] (-0.1,-0.1) grid (1.1,1.1);
 
-            % axes
-            \draw[->] (-0.2,0) -- (1.2,0) node[right] {$x_1$};
-            \draw[->] (0,-0.2) -- (0,1.2) node[above] {$x_2$};
+                    % axes
+                    \draw[->] (-0.2,0) -- (1.2,0) node[right] {$x_1$};
+                    \draw[->] (0,-0.2) -- (0,1.2) node[above] {$x_2$};
 
-            % nodes
-            \node (n00) at (0,0) [dot, label=below left:{(0,0)}];
-            \node (n01) at (0,1) [dot, label=below left:{(0,1)}];
-            \node (n10) at (1,0) [dot, label=below right:{(1,0)}];
-            \node (n11) at (1,1) [dot, label=below right:{(1,1)}];
+                    % nodes
+                    \node (n00) at (0,0) [dot, label=below left:{(0,0)}];
+                    \node (n01) at (0,1) [dot, label=below left:{(0,1)}];
+                    \node (n10) at (1,0) [dot, label=below right:{(1,0)}];
+                    \node (n11) at (1,1) [dot, label=below right:{(1,1)}];
 
-            % vector
-            \draw[->] (n00) -- (n11);
-        \end{tikzpicture}
+                    % vector
+                    \draw[->] (n00) -- (n11);
+                \end{tikzpicture}
+            \end{minipage}
+        }\quad
+        \adjustbox{valign=t}{%
+            \begin{minipage}[t]{0.5\textwidth}
+                \begin{tikzpicture}[
+                                > = latex,
+                            scale = 3,
+                            domain = 0:1,
+                        dot/.style = {circle, draw, fill, minimum size=1mm, inner sep=0mm, node contents={}},
+                    ]
+                    % grids
+                    \begin{scope}[canvas is xy plane at z=0]
+                        \draw[dotted, thin,color=gray] (-0.1,-0.1) grid (1.1,1.1);
+                    \end{scope}
 
+                    \begin{scope}[canvas is xy plane at z=1]
+                        \draw[dotted, thin,color=gray] (-0.1,-0.1) grid (1.1,1.1);
+                    \end{scope}
 
-        % comment
-        \ifx true false
+                    \begin{scope}[canvas is xz plane at y=0]
+                        \draw[dotted, thin,color=gray] (-0.1,-0.1) grid (1.1,1.1);
+                    \end{scope}
 
-        \begin{tikzpicture}[
-            node distance = 5em and 5em,
-            ]
-            %Nodes
-            \node[]    (backtopleft)                                    {(0,1,0)};
-            \node[]    (backtopright)       [right=of backtopleft]      {(1,1,0)};
-            \node[]    (backbottomleft)     [below=of backtopleft]      {(0,0,0)};
-            \node[]    (backbottomright)    [right=of backbottomleft]   {(1,0,0)};
+                    \begin{scope}[canvas is xz plane at y=1]
+                        \draw[dotted, thin,color=gray] (-0.1,-0.1) grid (1.1,1.1);
+                    \end{scope}
 
-            \node[]    (fronttopleft)       [shift={(-1, -1)}]          {(0,1,1)};
-            \node[]    (fronttopright)      [right=of fronttopleft]     {(1,1,1)};
-            \node[]    (frontbottomleft)    [below=of fronttopleft]     {(0,0,1)};
-            \node[]    (frontbottomright)   [right=of frontbottomleft]  {(1,0,1)};
+                    % axes
+                    \draw[->] (0,0,0) -- (xyz cylindrical cs:radius=1.2) node[right] {$x_1$};
+                    \draw[->] (0,0,0) -- (xyz cylindrical cs:radius=1.2,angle=90) node[above] {$x_2$};
+                    \draw[->] (0,0,0) -- (xyz cylindrical cs:z=1.2) node[below right] {$x_3$};
 
-            %Axes
-            \draw[-latex,line width=1pt] (backbottomleft) -- (4,-2.35) node[right] {$x_1$};
-            \draw[-latex,line width=1pt] (backbottomleft) -- (-1.38,-3.75) node[left] {$x_2$};
-            \draw[-latex,line width=1pt] (backbottomleft) -- (0,0.75) node[above] {$x_3$};
+                    % nodes
+                    \node (n000) at (0,0,0) [dot, label=below right:{(0,0,0)}];
+                    \node (n001) at (0,0,1) [dot, label=above left:{(0,0,1)}];
+                    \node (n010) at (0,1,0) [dot, label=above left:{(0,1,0)}];
+                    \node (n011) at (0,1,1) [dot, label=above left:{(0,1,1)}];
 
-            %Lines
-            \draw[dotted] (backtopleft) -- (backtopright) -- (backbottomright);
+                    \node (n100) at (1,0,0) [dot, label=below right:{(1,0,0)}];
+                    \node (n101) at (1,0,1) [dot, label=below right:{(1,0,1)}];
+                    \node (n110) at (1,1,0) [dot, label=above right:{(1,1,0)}];
+                    \node (n111) at (1,1,1) [dot, label=above left:{(1,1,1)}];
 
-            \draw[dotted] (fronttopleft) -- (fronttopright) -- (frontbottomright) -- (frontbottomleft) -- (fronttopleft);
-
-            \draw[dotted] (backtopleft) -- (fronttopleft);
-            \draw[dotted] (backtopright) -- (fronttopright);
-            \draw[dotted] (backbottomright) -- (frontbottomright);
-
-            %Vector
-            \draw[-latex,line width=1pt] (backbottomleft) -- (fronttopleft)  ;
-        \end{tikzpicture}
-
-        \fi % end comment
-
+                    % vector
+                    \draw[->] (n000) -- (n011);
+                \end{tikzpicture}
+            \end{minipage}
+        }
         \caption{Codewords $[1,1]$ and $[0,1,1]$ as vectors over $GF(2)$}
         \label{fig:codeword_vectors}
     \end{figure}
-
-    Vectors $v_1, v_2, ..., v_k$ are linear independent if there is not a single set of scalars $a_i \neq 0$, such that $a_1v_1+a_2v_2+...+a_kv_k=0$. For example, vectors $[0,1]$ and $[1,0]$ are linearly independent, but $[0,1]$ and $[1,1]$ are linear dependent vectors.
-
 
 \end{document}
