@@ -12,6 +12,7 @@
         w_H(x) = \sum_{j=0}^{n-1} w_H(x_j), \text{where } w_H(x_j) = \begin{cases} 0, &\text{if } x_j = 0 \\ 1, &\text{if } x_j \neq 0 \end{cases}
     \end{equation*}
 
+    \noindent
     The Hamming distance $d_H(x,y)$ between two codewords or vectors $x$ and $y$ is defined as amount of elements or coordinates where $x$ and $y$ differ.
 
     \begin{equation*}
@@ -22,7 +23,49 @@
         d_H(x,y) =  w_H(x,y)
     \end{equation*}
 
-The minimum distance $d_min$ of code $C$ is the minimum distance between two different codewords. The minimum distance for linear codes is equal to the minimum weight \autocite{bossert1999channel}. However, a codeword containing only zeros and therefore having a distance of zero is disregarded as the minimum distance cannot be zero.
+    \noindent
+    The minimum distance $d_min$ of code $C$ is the minimum distance between two different codewords. The minimum distance for linear codes is equal to the minimum weight \autocite{bossert1999channel}. However, a codeword containing only zeros and therefore having a distance of zero is disregarded as the minimum distance cannot be zero.
+
+
+    Let $x,y$ be codewords in code $C$. A received vector, which is the sent vector $x$ in $C$, plus error vector $e$ can only be corrected if the distance between any other codeword $y$ in $C$ fulfill
+
+    \begin{equation*}
+        d_{min}(x, x+e) < d_{min}(y, x+e) \text{ or } w_{min}(e) < w_{min}(x+y+e).
+    \end{equation*}
+
+    \noindent
+    Therefore
+
+    \begin{equation*}
+         w_{min}(e) \leq \frac{d-1}{2},
+    \end{equation*}
+
+    \noindent
+    where $d$ is the distance. This is written as
+
+    \begin{equation*}
+        t \leq \frac{d-1}{2} \text{or } d \geq 2t+1,
+    \end{equation*}
+
+    \noindent
+    where $t$ is the amount of errors that can be corrected.
+
+
+    A q-ary code of lenght $n$, with $k$ codewords, and a minimum distance $d_{min}=d(C)$, is called a $(n,k,d)$ code. The code rate is defined as
+
+    \begin{equation*}
+        R_c=\frac{log_qk}{n}.
+    \end{equation*}
+
+    \noindent
+    Linear (n,k)-codes use n symbols to send k message symbols. Its code rate is:
+
+    \begin{equation*}
+        R_c=\frac{k}{n},
+    \end{equation*}
+
+    \noindent
+    where $k$ is the number of bits and $n$ is the length of the code. If rate $R$ less than capacity $C$ then the code exists, but if rate $R$ is larger than capacity $C$, the error probability is 1 and the length of the codeword becomes infinite.
 
     \section{Singleton Bound}
 
