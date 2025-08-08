@@ -52,9 +52,10 @@
     \begin{figure}[htp]
         \begin{center}
             \begin{tikzpicture}[
-                roundnode/.style={circle, draw=black, fill=gray!5, thick, minimum size=7mm},
-                squarednode/.style={rectangle, draw=black, thick, minimum size=5mm},
-                dottednode/.style={rectangle, draw=black, dotted, fill=gray!15, thick, minimum size=5mm},
+                                     > = latex,
+                      roundnode/.style = {circle, draw=black, fill=gray!5, thick, minimum size=7mm},
+                    squarednode/.style = {rectangle, draw=black, thick, minimum size=5mm},
+                     dottednode/.style = {rectangle, draw=black, dotted, fill=gray!15, thick, minimum size=5mm},
                 ]
                 %Nodes
                 \node[roundnode]        (channel)                           {+};
@@ -65,13 +66,13 @@
                 \node[squarednode]      (receiver)      [right=of decoder]  {Receiver};
 
                 %Lines
-                \draw[-latex,line width=1pt] (sender.east) -- (encoder.west);
-                \draw[-latex,line width=1pt] (encoder.east) -- (channel.west) node[midway,above] {c};
+                \draw[->,line width=1pt] (sender.east) -- (encoder.west);
+                \draw[->,line width=1pt] (encoder.east) -- (channel.west) node[midway,above] {c};
 
-                \draw[-latex,line width=1pt] (noise.south) -- (channel.north);
+                \draw[->,line width=1pt] (noise.south) -- (channel.north);
 
-                \draw[-latex,line width=1pt] (channel.east) -- (decoder.west) node[midway,above] {r};
-                \draw[-latex,line width=1pt] (decoder.east) -- (receiver.west);
+                \draw[->,line width=1pt] (channel.east) -- (decoder.west) node[midway,above] {r};
+                \draw[->,line width=1pt] (decoder.east) -- (receiver.west);
             \end{tikzpicture}
         \end{center}
         \caption{Digital transmission system}
@@ -84,8 +85,9 @@
     \begin{figure}[htp]
         \begin{center}
             \begin{tikzpicture}[
+                            > = latex,
                 node distance = 4em and 15em,
-                bit/.style={rectangle, draw=black, thick, minimum size=7mm}
+                   bit/.style = {rectangle, draw=black, thick, minimum size=7mm}
                 ]
                 %Nodes
                 \node[bit]    (topleft)                               {0};
@@ -94,11 +96,11 @@
                 \node[bit]    (bottomright)   [right=of bottomleft]   {1};
 
                 %Lines
-                \draw[-latex,line width=1pt] (topleft.east) -- (topright.west) node[midway, above] {1-p};
-                \draw[-latex,line width=1pt] (topleft.east) -- (bottomright) node[pos=0.9, above] {p};
+                \draw[->,line width=1pt] (topleft.east) -- (topright.west) node[midway, above] {1-p};
+                \draw[->,line width=1pt] (topleft.east) -- (bottomright) node[pos=0.9, above] {p};
 
-                \draw[-latex,line width=1pt] (bottomleft.east) -- (bottomright.west) node[midway, above] {1-p};
-                \draw[-latex,line width=1pt] (bottomleft.east) -- (topright)  node[pos=0.9, below] {p};
+                \draw[->,line width=1pt] (bottomleft.east) -- (bottomright.west) node[midway, above] {1-p};
+                \draw[->,line width=1pt] (bottomleft.east) -- (topright)  node[pos=0.9, below] {p};
             \end{tikzpicture}
         \end{center}
         \caption{Model of the binary symmetric channel (BSC)}
