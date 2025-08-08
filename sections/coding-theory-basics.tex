@@ -208,9 +208,9 @@
                 \begin{minipage}[t]{0.475\textwidth}
                     \raggedright
                     \caption{Addition for $GF(2^2)$ in polynomial representation.}
-                    \label{table:addition_gf(2sq)_polynomial}
                     \centering
                     \begin{tabular}{c | c c c c}
+                        \label{table:addition_gf(2sq)_polynomial}
                         \textbf{+}      & \textbf{0}    & \textbf{1}    & \textbf{x}    & \textbf{x+1} \\
                         \hline
                         \textbf{0}      & 0             & 1             & x             & x+1 \\
@@ -224,9 +224,9 @@
                 \begin{minipage}[t]{0.475\textwidth}
                    \raggedright
                     \caption{Multiplication for $GF(2^2)$ in polynomial representation.}
-                    \label{table:multiplication_gf(2sq)_polynomial}
                     \centering
                     \begin{tabular}{c | c c c c}
+                        \label{table:multiplication_gf(2sq)_polynomial}
                         \textbf{+}      & \textbf{0}    & \textbf{1}    & \textbf{x}    & \textbf{x+1} \\
                         \hline
                         \textbf{0}      & 0             & 0             & 0             & 0 \\
@@ -299,35 +299,43 @@
      \noindent
     so the polynomial of $\alpha^6$ is $x^3 + x + 1$. The remaining exponentials can be obtained in the same manner while keeping each polynomial of degree 3 or less because we can substitute $\alpha^4$, a polynomial of degree 4, with $\alpha + 1$, which is of degree 1. Note that $\alpha^{15} = 1$. Fermats's Little Theorem says that $q^{m - 1} \equiv 1 (mod\ m)$, where $q$ is prime and $m$ is a positive integer \autocite{blahut1983theory} \autocite{bossert1999channel}.
 
-    \begin{table} %fixme
-        \begin{center}
-            \caption{Elements of Galois Field $GF(2^4)$ in different notations.}
-            \label{table:galois_field_notations}
-            \begin{tabular}{c | r | r | c | c | c}
-                \textbf{Exponential} & \textbf{Algebraic} & \textbf{Polynomial} & \textbf{Bin} & \textbf{Dec} & \textbf{Hex} \\
-                \hline
-                0              & 0                                     & 0              & 0000  & 0     & 0 \\
-                $\alpha^0$     & 1                                     & 1              & 0001  & 1     & 1 \\
-                $\alpha^1$     & $\alpha$                              & $x$            & 0010  & 2     & 2 \\
-                $\alpha^2$     & $\alpha^2$                            & $x^2$          & 0100  & 4     & 4 \\
-                $\alpha^3$     & $\alpha^3$                            & $x^3$          & 1000  & 8     & 8 \\
-                $\alpha^4$     & $\alpha+1$                            & $x+1$          & 0011  & 3     & 3 \\
-                $\alpha^5$     & $\alpha(\alpha+1)$                    & $x^2+x$        & 0110  & 6     & 6 \\
-                $\alpha^6$     & $\alpha(\alpha^2+\alpha)$             & $x^3+x^2$      & 1100  & 12    & C \\
-                $\alpha^7$     & $\alpha(\alpha^3+\alpha^2)$           & $x^3+x+1$      & 1011  & 11    & B \\
-                $\alpha^8$     & $\alpha(\alpha^3+\alpha+1)$           & $x^2+1$        & 0101  & 5     & 5 \\
-                $\alpha^9$     & $\alpha(\alpha^2+1)$                  & $x^3+x$        & 1010  & 10    & A \\
-                $\alpha^{10}$  & $\alpha(\alpha^3+\alpha)$             & $x^2+x+1$      & 0111  & 7     & 7 \\
-                $\alpha^{11}$  & $\alpha(\alpha^2+\alpha+1)$           & $x^3+x^2+x$    & 1110  & 14    & E \\
-                $\alpha^{12}$  & $\alpha(\alpha^3+\alpha^2+\alpha)$    & $x^3+x^2+x+1$  & 1111  & 15    & F \\
-                $\alpha^{13}$  & $\alpha(\alpha^3+\alpha^2+\alpha+1)$  & $x^3+x^2+1$    & 1101  & 13    & D \\
-                $\alpha^{14}$  & $\alpha(\alpha^3+\alpha^2+1)$         & $x^3+1$        & 1001  & 9     & 9 \\
-            \end{tabular}
-        \end{center}
-    \end{table}
+    \begin{longtable}[c]{c | r | r | c | c | c}
+        \caption{Elements of Galois Field $GF(2^4)$ in different notations.\label{long}}\\
+        \hline
+        \textbf{Exponential} & \textbf{Algebraic} & \textbf{Polynomial} & \textbf{Bin} & \textbf{Dec} & \textbf{Hex} \\
+        \hline
+        \endfirsthead
 
-    % force pagebreak due to large table above
-    \newpage
+        \hline
+        \multicolumn{6}{c}{Continuation of Table \ref{long}}\\
+        \hline
+        \textbf{Exponential} & \textbf{Algebraic} & \textbf{Polynomial} & \textbf{Bin} & \textbf{Dec} & \textbf{Hex} \\
+        \hline
+        \endhead
+
+        \endfoot
+
+        \hline
+        \endlastfoot
+        \label{table:galois_field_notations}
+
+        0              & 0                                     & 0              & 0000  & 0     & 0 \\
+        $\alpha^0$     & 1                                     & 1              & 0001  & 1     & 1 \\
+        $\alpha^1$     & $\alpha$                              & $x$            & 0010  & 2     & 2 \\
+        $\alpha^2$     & $\alpha^2$                            & $x^2$          & 0100  & 4     & 4 \\
+        $\alpha^3$     & $\alpha^3$                            & $x^3$          & 1000  & 8     & 8 \\
+        $\alpha^4$     & $\alpha+1$                            & $x+1$          & 0011  & 3     & 3 \\
+        $\alpha^5$     & $\alpha(\alpha+1)$                    & $x^2+x$        & 0110  & 6     & 6 \\
+        $\alpha^6$     & $\alpha(\alpha^2+\alpha)$             & $x^3+x^2$      & 1100  & 12    & C \\
+        $\alpha^7$     & $\alpha(\alpha^3+\alpha^2)$           & $x^3+x+1$      & 1011  & 11    & B \\
+        $\alpha^8$     & $\alpha(\alpha^3+\alpha+1)$           & $x^2+1$        & 0101  & 5     & 5 \\
+        $\alpha^9$     & $\alpha(\alpha^2+1)$                  & $x^3+x$        & 1010  & 10    & A \\
+        $\alpha^{10}$  & $\alpha(\alpha^3+\alpha)$             & $x^2+x+1$      & 0111  & 7     & 7 \\
+        $\alpha^{11}$  & $\alpha(\alpha^2+\alpha+1)$           & $x^3+x^2+x$    & 1110  & 14    & E \\
+        $\alpha^{12}$  & $\alpha(\alpha^3+\alpha^2+\alpha)$    & $x^3+x^2+x+1$  & 1111  & 15    & F \\
+        $\alpha^{13}$  & $\alpha(\alpha^3+\alpha^2+\alpha+1)$  & $x^3+x^2+1$    & 1101  & 13    & D \\
+        $\alpha^{14}$  & $\alpha(\alpha^3+\alpha^2+1)$         & $x^3+1$        & 1001  & 9     & 9 \\
+    \end{longtable}
 
 
     \section{Vector Space}
