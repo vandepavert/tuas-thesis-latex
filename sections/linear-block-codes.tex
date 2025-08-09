@@ -67,6 +67,7 @@
     \noindent
     where $k$ is the number of bits and $n$ is the length of the code. If rate $R$ less than capacity $C$ then the code exists, but if rate $R$ is larger than capacity $C$, the error probability is 1 and the length of the codeword becomes infinite.
 
+
     \section{Singleton Bound}
 
 
@@ -74,6 +75,123 @@
 
 
     \section{Hamming Codes}
+
+    \begin{figure}[htp]
+        \centering
+        \begin{tikzpicture}[
+                set/.style = {draw, circle, minimum size=3cm, align=center},
+            ]
+            \node (A) at (0,0) [set] {}; \node at (90:0.5cm) {$p_1$};
+            \node (B) at (240:1.75cm) [set] {}; \node at (240:2.25cm) {$p_2$};
+            \node (C) at (300:1.75cm) [set] {}; \node at (300:2.25cm) {$p_3$};
+
+            \node at (barycentric cs:A=1,B=1) [left] {$i_1$};
+            \node at (barycentric cs:A=1,C=1) [right] {$i_2$};
+            \node at (barycentric cs:B=1,C=1) [below] {$i_3$};
+            \node at (barycentric cs:A=1,B=1,C=1) [] {$i_4$};
+        \end{tikzpicture}
+        \caption{Relation between information and parity bits}
+        \label{fig:information_and_parity_bits}
+    \end{figure}
+
+    \begin{figure}[htp]
+        \centering
+        \begin{tikzpicture}[
+                            > = latex,
+                node distance = 7mm,
+                   box/.style = {draw, minimum size=10mm},
+                   dot/.style = {circle, draw, fill, minimum size=1mm, inner sep=0mm, node contents={}},
+            ]
+            % data word nodes
+            \node (di1) [box] at (0,0) {$i_1$};
+            \node (di2) [box] at (0,-1) {$i_2$};
+            \node (di3) [box] at (0,-2) {$i_3$};
+            \node (di4) [box] at (0,-3) {$i_4$};
+
+            % code word nodes
+            \node (ci1) [box] at (10,0) {$i_1$};
+            \node (ci2) [box] at (10,-1) {$i_2$};
+            \node (ci3) [box] at (10,-2) {$i_3$};
+            \node (ci4) [box] at (10,-3) {$i_4$};
+            \node (cp1) [box] at (10,-4) {$p_1$};
+            \node (cp2) [box] at (10,-5) {$p_2$};
+            \node (cp3) [box] at (10,-6) {$p_3$};
+
+            % mod 2 adder nodes
+            \node (a1) [box] at (5,-4) {$i_1+i_2+i_4$};
+            \node (a2) [box] at (5,-5.5) {$i_1+i_3+i_4$};
+            \node (a3) [box] at (5,-7) {$i_2+i_3+i_4$};
+
+            % connection nodes
+            \node (n1) [dot, right=0.5cm of di1];
+            \node (n2) [dot, right=1cm of di2];
+            \node (n3) [dot, right=1.5cm of di3];
+            \node (n4) [dot, right=2cm of di4];
+            \node (n5) [left=1cm of cp2] {};
+            \node (n6) [left=0.5cm of cp3] {};
+
+            % connections
+            \draw (di1) edge (n1); \draw[->] (n1) edge (ci1);
+            \draw (di2) edge (n2); \draw[->] (n2) edge (ci2);
+            \draw (di3) edge (n3); \draw[->] (n3) edge (ci3);
+            \draw (di4) edge (n4); \draw[->] (n4) edge (ci4);
+            % i1
+            \draw[->] (n1) |- node[dot] {} (a1.south west);
+            \draw[->] (n1) |- (a2.south west);
+            % i2
+            \draw[->] (n2) |- node[dot] {} (a1.west);
+            \draw[->] (n2) |- (a3.south west);
+            % i3
+            \draw[->] (n3) |- node[dot] {} (a2.west);
+            \draw[->] (n3) |- (a3.west);
+            % i4
+            \draw[->] (n4) |- node[dot] {} (a1.north west);
+            \draw[->] (n4) |- node[dot] {} (a2.north west);
+            \draw[->] (n4) |- (a3.north west);
+            % p1
+            \draw[->] (a1.east) -- (cp1.west);
+            % p2
+            \draw[->] (a2.east) -| (n5.center) (n5.center) |- (cp2.west);
+            % p3
+            \draw[->] (a3.east) -| (n6.center) (n6.center) |- (cp3.west);
+
+            % legends
+            \coordinate[above=0.25cm of di1, label={4-bit data word}];
+            \coordinate[above=0.25cm of ci1, label={7-bit code word}];
+            \coordinate[below=0.5cm of a3, label={modulo 2 adders}];
+        \end{tikzpicture}
+        \caption{ Hamming (7,4) encoder.}
+        \label{fig:hamming_encoder}
+    \end{figure}
+
+
+
+
+        \begin{figure}[htp]
+            \centering
+            \begin{tikzpicture}[
+                            > = latex,
+                node distance = 7mm,
+                   box/.style = {draw, minimum size=10mm},
+                   dot/.style = {circle, draw, fill, minimum size=1mm, inner sep=0mm, node contents={}},
+                   sum/.style = {circle, draw, minimum size=6mm,
+                                path picture={\draw[thick,shorten <=1.5mm,shorten >=1.5mm,-]
+                                                (\ppbb.north) edge (\ppbb.south)
+                                                (\ppbb.west)  edge (\ppbb.east);
+                                             },% end of path picture /node content/
+                                node contents={}},
+                ]
+                % code word nodes
+                % data word nodes
+                % mod 2 adder nodes
+                % error correction nodes
+                % connection nodes
+                % connections
+                % legends
+            \end{tikzpicture}
+            \caption{ Hamming (7,4) decoder.}
+            \label{fig:hamming_decoder}
+        \end{figure}
 
 
     \section{Syndrome Decoding}
