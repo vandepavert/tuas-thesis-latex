@@ -9,14 +9,22 @@
     The Hamming weight $w_H(x)$ of a codeword or vector $x$ is defined as the amount of non-zero elements or vector coordinates, which ranges from zero to length $n$ of said codeword.
 
     \begin{equation*}
-        w_H(x) = \sum_{j=0}^{n-1} w_H(x_j), \text{where } w_H(x_j) = \begin{cases} 0, &\text{if } x_j = 0 \\ 1, &\text{if } x_j \neq 0 \end{cases}
+        w_H(x) = \sum_{j=0}^{n-1} w_H(x_j), \text{ where } w_H(x_j) =
+        \begin{cases}
+            0, &\text{if } x_j = 0 \\
+            1, &\text{if } x_j \neq 0
+        \end{cases}
     \end{equation*}
 
     \noindent
     The Hamming distance $d_H(x,y)$ between two codewords or vectors $x$ and $y$ is defined as amount of elements or coordinates where $x$ and $y$ differ.
 
     \begin{equation*}
-        d_H(x,y) = \sum_{j=0}^{n-1} w_H(x_j+y_j), \text{where } w_H(x_j+y_j) = \begin{cases} 0, \text{if } x_j=y_j \\ 1, \text{if } x_j \neq y_j \end{cases}
+        d_H(x,y) = \sum_{j=0}^{n-1} w_H(x_j+y_j), \text{ where } w_H(x_j+y_j) =
+        \begin{cases}
+            0, \text{if } x_j=y_j \\
+            1, \text{if } x_j \neq y_j
+        \end{cases}
     \end{equation*}
 
     \begin{equation*}
@@ -44,34 +52,52 @@
     where $d$ is the distance. This is written as
 
     \begin{equation*}
-        t \leq \frac{d-1}{2} \text{or } d \geq 2t+1,
+        t \leq \frac{d-1}{2} \text{ or } d \geq 2t+1,
     \end{equation*}
 
     \noindent
     where $t$ is the amount of errors that can be corrected.
 
+    In general, a code $C$ of length $n$, with $M$ codewords, and a minimum distance $d=d(C)$, is called an $(n,M,d)$ code. Then M$ \leq q^{n-d+1}$ and the coderate of a $q$-ary $(n,M,d)$ code is at most $1-\frac{d-1}{n}$.
 
-    A q-ary code of lenght $n$, with $k$ codewords, and a minimum distance $d_{min}=d(C)$, is called a $(n,k,d)$ code. The code rate is defined as
+    A linear $q$-ary code of lenght $n$, with $k$ codewords or message symbols, and distance $d$ is called a $(n,k,d)$ code or $(n,k)$ code. The code rate is defined as
 
     \begin{equation*}
-        R_c=\frac{log_qk}{n}.
+        R=\frac{log_qk}{n}.
     \end{equation*}
 
     \noindent
-    Linear (n,k)-codes use n symbols to send k message symbols. Its code rate is:
-
-    \begin{equation*}
-        R_c=\frac{k}{n},
-    \end{equation*}
-
-    \noindent
-    where $k$ is the number of bits and $n$ is the length of the code. If rate $R$ less than capacity $C$ then the code exists, but if rate $R$ is larger than capacity $C$, the error probability is 1 and the length of the codeword becomes infinite.
+    If, according to Shannon's channel coding theorem, rate $R$ is less than capacity $C$, then the code exists but if rate $R$ is larger than capacity $C$, the error probability is 1 and the length of the codeword becomes infinite.
 
 
     \section{Singleton Bound}
+    It is preferable to have a large minimum distance $d$ so that many errors can be corrected. Also, a large amount of codewords $M$ would allow for efficient use of bandwidth when transmitting over a noisy channel. Unfortunately, increasing $d$ tends to increase $n$ or decrease $M$. The Singleton bound is an upper bound for $M$ in terms of $n$ and $d$. A code that satisfies the Singleton bound is called a MDS code (maximum distance separable). The Singleton bound can be written as
+
+    \begin{equation*}
+        q^d \leq \frac{q^{n+1}}{M}
+    \end{equation*}
+
+    \noindent
+    for the MDS code to obtain the largest possible value of $d$ for a given $n$ and $M$. Reed-Solomon codes are an important class of MDS codes \autocite{trappe2006introduction}.
 
 
     \section{Maximum-likelihood Decoding}
+    There are two principles of decoding. In hard-decision decoding the received bits are believed to be either 1 or 0 in binary transmission. The decoding is done bit by bit. In soft-decision decoding, the received codewords may contain samples of bits with many values, not just 1 or 0. Calculating the closest error-free codeword is more complicated but soft-decision decoding has better performance than the hard-decision decoding.
+
+    Assuming hard-decision decoding is used, the received codeword is decoded into its closest codeword measured by its smallest Hamming distance. This minimum probability of error principle is called Maximum-Likelihood or Minimum Distance Decoding \autocite{geisel1990tutorial}.
+
+    The model of the binary symmetric channel (BSC) \autocite{mackay2003information} in \Cref{fig:binary_symmetric_channel} shows that the channel has binary input and output with an error probability, the channel is characterised by the following conditions if $c$ is the transmitted code and $r$ the received code:
+
+    \begin{align*}
+        \begin{rcases*}
+            P(r=0|c=0) &= 1-p\\
+            P(r=0|c=1) &= p\\
+            P(r=1|c=0) &= p\\
+            P(r=1|c=1) &= 1-p
+        \end{rcases*} \text{ and } 0 \leq p \leq \frac{1}{2}\\
+    \end{align*}
+
+    Comparing all received codewords $r$ to all transmitted codewords $c$ as a direct way of correcting errors would not be inefficient. This means storing all $2k$ code vectors and performing equally as many comparisons for each received codeword, resulting in error vectors of which the vector with the smallest distance is probably the transmitted codeword. A more practical decoding method would be Syndrome decoding which will be described in \Cref{sec:syndrome_decoding}.
 
 
     \section{Hamming Codes}
@@ -164,37 +190,34 @@
         \label{fig:hamming_encoder}
     \end{figure}
 
+    \begin{figure}[htp]
+        \centering
+        \begin{tikzpicture}[
+                        > = latex,
+            node distance = 7mm,
+                box/.style = {draw, minimum size=10mm},
+                dot/.style = {circle, draw, fill, minimum size=1mm, inner sep=0mm, node contents={}},
+                sum/.style = {circle, draw, minimum size=6mm,
+                            path picture={\draw[thick,shorten <=1.5mm,shorten >=1.5mm,-]
+                                            (\ppbb.north) edge (\ppbb.south)
+                                            (\ppbb.west)  edge (\ppbb.east);
+                                            },% end of path picture /node content/
+                            node contents={}},
+            ]
+            % code word nodes
+            % data word nodes
+            % mod 2 adder nodes
+            % error correction nodes
+            % connection nodes
+            % connections
+            % legends
+        \end{tikzpicture}
+        \caption{ Hamming (7,4) decoder.}
+        \label{fig:hamming_decoder}
+    \end{figure}
 
 
-
-        \begin{figure}[htp]
-            \centering
-            \begin{tikzpicture}[
-                            > = latex,
-                node distance = 7mm,
-                   box/.style = {draw, minimum size=10mm},
-                   dot/.style = {circle, draw, fill, minimum size=1mm, inner sep=0mm, node contents={}},
-                   sum/.style = {circle, draw, minimum size=6mm,
-                                path picture={\draw[thick,shorten <=1.5mm,shorten >=1.5mm,-]
-                                                (\ppbb.north) edge (\ppbb.south)
-                                                (\ppbb.west)  edge (\ppbb.east);
-                                             },% end of path picture /node content/
-                                node contents={}},
-                ]
-                % code word nodes
-                % data word nodes
-                % mod 2 adder nodes
-                % error correction nodes
-                % connection nodes
-                % connections
-                % legends
-            \end{tikzpicture}
-            \caption{ Hamming (7,4) decoder.}
-            \label{fig:hamming_decoder}
-        \end{figure}
-
-
-    \section{Syndrome Decoding}
+    \section{Syndrome Decoding} \label{sec:syndrome_decoding}
 
 
     \section{Cyclic Codes}
