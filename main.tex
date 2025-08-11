@@ -191,23 +191,27 @@
       % Acknowledgements
       \subfile{sections/acknowledgements.tex}
 
-      % Table of contents
+      % Table of Contents
       \tableofcontents
 
-      % List of figures
+      % List of Figures
       \listoffigures
+      \addcontentsline{toc}{chapter}{List of Figures}
 
-      % List of tables
+      % List of Tables
       \listoftables
+      \addcontentsline{toc}{chapter}{List of Tables}
 
-      % List of symbols and notations
+      % List of Symbols and Notations
       \input{sections/notations.tex}
       \printnomenclature
+      \addcontentsline{toc}{chapter}{List of Symbols and Notations}
 
-      % List of abbreviations
+      % List of Abbreviations
       %\input{sections/abbreviations.tex}
       %\printglossary[type=acronym, title=Abbreviations, toctitle=Abbreviations]
-    
+      %\addcontentsline{toc}{chapter}{List of Abbreviations}
+
 
     % MAIN 
     %----------------------------------------------
