@@ -83,6 +83,13 @@
 %----------------------------------------------
 \newcommand{\nomunit}[1]{%
   \renewcommand{\nomentryend}{\hspace*{\fill}(#1)}}
+  % fixme: fill hspace with dots like \tableofcontents, \listoffigures and \listoftables
+
+
+% Create glossary of abbreviations
+%----------------------------------------------
+\usepackage[acronym,toc]{glossaries}
+%\makeglossaries
 
 
 % Add BibTex references
@@ -198,9 +205,10 @@
       \printnomenclature
 
       % List of abbreviations
-      \subfile{sections/abbreviations.tex}
-
+      %\input{sections/abbreviations.tex}
+      %\printglossary[type=acronym, title=Abbreviations, toctitle=Abbreviations]
     
+
     % MAIN 
     %----------------------------------------------
     \mainmatter
@@ -220,8 +228,9 @@
     % BACK 
     %----------------------------------------------
     \backmatter
-    
+
+      \chapter*{References}
       \addcontentsline{toc}{chapter}{References}
-      \printbibliography
+      \printbibliography[heading=none]
 
 \end{document}
