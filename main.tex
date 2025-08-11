@@ -4,9 +4,9 @@
 \usepackage{subfiles}
 \usepackage{blindtext}
 \usepackage{amsmath}
+\usepackage{mathtools}
 \usepackage{amssymb}
 \usepackage{xifthen}
-\usepackage[noabbrev]{cleveref}
 \usepackage{appendix}
 \usepackage{lastpage}
 \usepackage{csquotes}
@@ -48,12 +48,15 @@
 % Vector grapics
 %----------------------------------------------
 \usepackage{tikz}
-\usetikzlibrary{arrows.meta, calc, chains, positioning, 3d}
+\usetikzlibrary{arrows.meta, calc, chains, positioning, 3d, shapes.geometric}
 \newcommand\ppbb{path picture bounding box}
 
 \makeatletter
 \tikzset{suppress join/.code={\def\tikz@after@path{}}}
 \makeatother
+
+% https://tex.stackexchange.com/questions/482057/extending-anchors-in-tikz
+\def\findmid#1#2#3{($(#2)!#1!(#3)$)}
 
 
 % Initialise nomenclature to show List of Symbols and Notations
@@ -79,13 +82,30 @@
 % This will add the degrees of the polynomials
 %----------------------------------------------
 \newcommand{\nomunit}[1]{%
-    \renewcommand{\nomentryend}{\hspace*{\fill}(#1)}}
+  \renewcommand{\nomentryend}{\hspace*{\fill}(#1)}}
 
 
 % Add BibTex references
 %----------------------------------------------
 \usepackage[backend=biber, style=apa, sorting=nty]{biblatex}
 \addbibresource{references.bib}
+
+
+% Cross document referencing in standalone documents
+%----------------------------------------------
+\usepackage{xr}
+%\usepackage{xr-hyper} % in case of also loading hyperref.
+\makeatletter
+\newcommand\longempty{}%
+\newcommand\DoIfAndOnlyIfStandAlone{%
+  \ifx\document\longempty
+    \expandafter\@gobble
+  \else
+    \expandafter\@firstofone
+  \fi
+}%
+\makeatother
+\usepackage[noabbrev]{cleveref}
 
 
 % copy matter parts from book class

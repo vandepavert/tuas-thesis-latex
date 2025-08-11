@@ -1,5 +1,8 @@
 \documentclass[../main.tex]{subfiles}
-\setcounter{chapter}{2}
+\DoIfAndOnlyIfStandAlone{%
+    \externaldocument{introduction}%
+    \setcounter{chapter}{2}%
+}%
 
 \begin{document}
 
@@ -101,6 +104,16 @@
 
 
     \section{Hamming Codes}
+    Hamming constructed a code where he added three additional bits to four information bits. These additional or parity bits are chosen based on the information bits in the following manner:
+
+    \begin{align*}
+        p_1 &= i_1 + i_2 + i_4\\
+        p_2 &= i_1 + i_3 + i_4\\
+        p_3 &= i_2 + i_3 + i_4
+    \end{align*}
+
+    \noindent
+    and form the codeword $c=(i_1, i_2, i_3, i_4, p_1, p_2, p_3)$ . Hamming codes are block codes. This means that a fixed block of input data is processed into a fixed block of output data. A code is called a systematic code if the codeword starts with the information bits, followed by the parity bits, as shown in \Cref{fig:systematic_codeword}. A non-systematic code has the information bits in a different order. The parity bits are the result of a modulo 2 addition, so if there is an even amount of bits, it gives 0 and 1 when there is an odd amount. If a single error occurs, i.e., a bit is flipped or reversed, the codeword no longer satisfies the equations.
 
     \begin{figure}[htp]
         \centering
@@ -123,19 +136,33 @@
     \begin{figure}[htp]
         \centering
         \begin{tikzpicture}[
+                box/.style = {draw, rectangle, minimum size=1cm, align=center},
+            ]
+            \node (data) [box, minimum width=6cm] {$k$ data bytes};
+            \node (parity) [box, right=0cm of data] {$n-k$ parity bytes};
+        \end{tikzpicture}
+        \caption{An example of a systematic codeword of length $n$}
+        \label{fig:systematic_codeword}
+    \end{figure}
+
+    \newpage
+
+    \begin{figure}[htp]
+        \centering
+        \begin{tikzpicture}[
                             > = latex,
-                node distance = 7mm,
                    box/.style = {draw, minimum size=10mm},
+                   add/.style = {draw, fill=gray!10, minimum size=10mm},
                    dot/.style = {circle, draw, fill, minimum size=1mm, inner sep=0mm, node contents={}},
             ]
             % data word nodes
-            \node (di1) [box] at (0,0) {$i_1$};
+            \node (di1) [box] at (0,0)  {$i_1$};
             \node (di2) [box] at (0,-1) {$i_2$};
             \node (di3) [box] at (0,-2) {$i_3$};
             \node (di4) [box] at (0,-3) {$i_4$};
 
             % code word nodes
-            \node (ci1) [box] at (10,0) {$i_1$};
+            \node (ci1) [box] at (10,0)  {$i_1$};
             \node (ci2) [box] at (10,-1) {$i_2$};
             \node (ci3) [box] at (10,-2) {$i_3$};
             \node (ci4) [box] at (10,-3) {$i_4$};
@@ -144,9 +171,9 @@
             \node (cp3) [box] at (10,-6) {$p_3$};
 
             % mod 2 adder nodes
-            \node (a1) [box] at (5,-4) {$i_1+i_2+i_4$};
-            \node (a2) [box] at (5,-5.5) {$i_1+i_3+i_4$};
-            \node (a3) [box] at (5,-7) {$i_2+i_3+i_4$};
+            \node (a1) [add] at (5,-4)   {$i_1+i_2+i_4$};
+            \node (a2) [add] at (5,-5.5) {$i_1+i_3+i_4$};
+            \node (a3) [add] at (5,-7)   {$i_2+i_3+i_4$};
 
             % connection nodes
             \node (n1) [dot, right=0.5cm of di1];
@@ -190,14 +217,27 @@
         \label{fig:hamming_encoder}
     \end{figure}
 
+    The decoder receives a seven-bit codeword $r=(i'_1, i'_2, i'_3, i'_4, p'_1, p'_2, p'_3)$. With an algebraic method known as syndrome decoding it is possible to determine the position of the error:
+
+    \begin{align*}
+        s_1 &= p'_1 + i'_1 + i'_2 + i'_4\\
+        s_2 &= p'_2 + i'_1 + i'_3 + i'_4\\
+        s_3 &= p'_3 + i'_2 + i'_3 + i'_4
+    \end{align*}
+
+    \noindent
+    The three-bit syndrome $(s_1, s_2, s_3)$ returns $(0, 0, 0)$ when a received codeword contains no errors. There are seven more possible syndromes, each corresponding to the position of the error in the received codeword. The decoder then inverts the detected bit to counter the error.
+
+    \newpage
+
     \begin{figure}[htp]
         \centering
         \begin{tikzpicture}[
                         > = latex,
-            node distance = 7mm,
-                box/.style = {draw, minimum size=10mm},
+                add/.style = {draw, fill=gray!10, minimum size=10mm, align=center},
+                box/.style = {draw, minimum size=10mm, align=center},
                 dot/.style = {circle, draw, fill, minimum size=1mm, inner sep=0mm, node contents={}},
-                sum/.style = {circle, draw, minimum size=6mm,
+                sum/.style = {circle, draw, minimum size=5mm,
                             path picture={\draw[thick,shorten <=1.5mm,shorten >=1.5mm,-]
                                             (\ppbb.north) edge (\ppbb.south)
                                             (\ppbb.west)  edge (\ppbb.east);
@@ -205,19 +245,201 @@
                             node contents={}},
             ]
             % code word nodes
+            \node (ci1) [box] at (0,0)  {$i'_1$};
+            \node (ci2) [box] at (0,-1) {$i'_2$};
+            \node (ci3) [box] at (0,-2) {$i'_3$};
+            \node (ci4) [box] at (0,-3) {$i'_4$};
+            \node (cp1) [box] at (0,-4) {$p'_1$};
+            \node (cp2) [box] at (0,-5) {$p'_2$};
+            \node (cp3) [box] at (0,-6) {$p'_3$};
+
             % data word nodes
+            \node (di1) [box] at (10,0)  {$i_1$};
+            \node (di2) [box] at (10,-1) {$i_2$};
+            \node (di3) [box] at (10,-2) {$i_3$};
+            \node (di4) [box] at (10,-3) {$i_4$};
+
             % mod 2 adder nodes
+            \node (a1) [add, minimum height=1.5cm] at (5.5,-4.5)   {error at\\$i_1, i_2, i_4$\\or $p_1$};
+            \node (a2) [add, minimum height=1.5cm] at (5.5,-6.5) {error at\\$i_1, i_3, i_4$\\or $p_2$};
+            \node (a3) [add, minimum height=1.5cm] at (5.5,-8.5)   {error at\\$i_2, i_3, i_4$\\or $p_3$};
+
             % error correction nodes
+            \node (e) [add, minimum height=5cm] at (8,-6.5) {error\\correction\\logic};
+            \node (s1) [sum, left=0.5cm of di1];
+            \node (s2) [sum, left=1cm of di2];
+            \node (s3) [sum, left=1.5cm of di3];
+            \node (s4) [sum, left=2cm of di4];
+
             % connection nodes
+            \node (n1) [dot, right=2cm of ci1];
+            \node (n2) [dot, right=2.5cm of ci2];
+            \node (n3) [dot, right=3cm of ci3];
+            \node (n4) [dot, right=3.5cm of ci4];
+            \node (n5) [right=1.5cm of cp1] {};
+            \node (n6) [right=1cm of cp2] {};
+            \node (n7) [right=0.5cm of cp3] {};
+
             % connections
+            \draw (ci1) edge (n1); \draw[->] (n1) edge (s1) (s1) edge (di1);
+            \draw (ci2) edge (n2); \draw[->] (n2) edge (s2) (s2) edge (di2);
+            \draw (ci3) edge (n3); \draw[->] (n3) edge (s3) (s3) edge (di3);
+            \draw (ci4) edge (n4); \draw[->] (n4) edge (s4) (s4) edge (di4);
+            % i'1
+            \draw[->] (n1) |- node[dot] {} \findmid{0.667}{a1.south west}{a1.west};
+            \draw[->] (n1) |- \findmid{0.667}{a2.south west}{a2.west};
+            % i'2
+            \draw[->] (n2) |- node[dot] {} \findmid{0.667}{a1.north west}{a1.west};
+            \draw[->] (n2) |- \findmid{0.667}{a3.south west}{a3.west};
+            % i'3
+            \draw[->] (n3) |- node[dot] {} \findmid{0.667}{a2.north west}{a2.west};
+            \draw[->] (n3) |- \findmid{0.667}{a3.north west}{a3.west};
+            % i'4
+            \draw[->] (n4) |- node[dot] {} (a1.north west);
+            \draw[->] (n4) |- node[dot] {} (a2.north west);
+            \draw[->] (n4) |- (a3.north west);
+            % p'1
+            \draw [->] (cp1.east) |- (n5.center) (n5.center) |- (a1.south west);
+            % p'2
+            \draw [->] (cp2.east) |- (n6.center) (n6.center) |- (a2.south west);
+            % p'3
+            \draw[->] (cp3.east) |- (n7.center) (n7.center) |- (a3.south west);
+            % s1
+            \draw[->] (a1.east) node[above right]{$s_1$} to (\tikztostart -| e.west);
+            % s2
+            \draw[->] (a2.east) node[above right]{$s_2$} to (\tikztostart -| e.west);
+            % s3
+            \draw[->] (a3.east) node[above right]{$s_3$} to (\tikztostart -| e.west);
+            % e1
+            \draw[<-] (s1.south) to (\tikztostart |- e.north);
+            % e2
+            \draw[<-] (s2.south) to (\tikztostart |- e.north);
+            % e3
+            \draw[<-] (s3.south) to (\tikztostart |- e.north);
+            % e4
+            \draw[<-] (s4.south) to (\tikztostart |- e.north);
+
             % legends
+            \coordinate[above=0.25cm of di1, label={Decoded 4-bit data word}];
+            \coordinate[above=0.25cm of ci1, label={Received 7-bit code word}];
+            \coordinate[below=0.5cm of a3, label={modulo 2 adders}];
         \end{tikzpicture}
         \caption{ Hamming (7,4) decoder.}
         \label{fig:hamming_decoder}
     \end{figure}
 
+    \autocite{bose2008information} considered the space of $q$-ary $m$-tuples, where every $q$-ary vector of length $m$ can be represented by its endpoint in this space. Hence, we can represent every codeword as a point in this space, and all codewords at a Hamming distance of $t$ or less would lie within the sphere centred at the codeword and with a radius of $t$.
+
+    \begin{figure}[h!tp]
+        \centering
+        \begin{tikzpicture}[
+                         > = latex,
+             sphere/.style = {draw, circle, minimum size=3cm, align=center},
+                dot/.style = {circle, draw, fill, minimum size=1mm, inner sep=0mm, node contents={}},
+            ]
+            % nodes
+            \node (c1) at (0,0) [sphere] {}; \node at (c1.center) [dot] {}; \node [right=0.1cm of c1.center] {$c_1$};
+            \node (c2) at (5,0) [sphere] {}; \node at (c2.center) [dot] {}; \node [right=0.1cm of c2.center] {$c_2$};
+            \node (a) [below=1cm of c1] {};
+            \node (b) [below=1cm of c2] {};
+
+            % lines
+            \draw[dotted] (a.center) -- (c1.center);
+            \draw[dotted] (b.center) -- (c2.center);
+            \draw[->] (c1.center) -- node[above right]{$t$} (c1.north west);
+            \draw[->] (c2.center) -- node[above right]{$t$} (c2.north west);
+            \draw[<->] (a.center) -- node[above]{$d > 2t + 1$} (b.center);
+
+            \end{tikzpicture}
+        \caption{Decoding sphere}
+        \label{fig:decoding_sphere}
+    \end{figure}
+
 
     \section{Syndrome Decoding} \label{sec:syndrome_decoding}
+    \autocite{trappe2006introduction} define linear $(n,k)$ code of dimension $k$ and length $n$ over a field $F$ as a $k$-dimensional subspace of $F^n$. For example, a linear binary code, of length $n$ and dimension $k$ is a set of $2^k$ binary codewords or $n$-tuples, such that the sum of any two codewords is always a codeword. To construct such a linear $(n,k)$ code, we choose a $k \times n$ matrix known as generator matrix. The rows have to be linearly independent to produce unique codewords.
+
+    Generator matrix $G$ is taken so that $G=[I_k,P]$, where $I_k$ is the $k \times k$ identity matrix which determine the codewords and $P$ is a $k \times (n-k)$ matrix that provides redundancy, the parity matrix. Now every codeword $c$ of code $C$ can be expressed as a linear combination of rows of $G$ by $c=i \cdot G$. We can now calculate the generator matrix for a systematic representation. For example, a systematic Hamming (7,4) code has the following generator matrix:
+
+    \begin{equation*}
+        G=[I_4|P]=
+        \begin{bmatrix}
+            1&0&0&0&1&1&0\\
+            0&1&0&0&1&0&1\\
+            0&0&1&0&0&1&1\\
+            0&0&0&1&1&1&1
+        \end{bmatrix}
+    \end{equation*}
+
+    \noindent
+    The parity check matrix is then calculated as
+
+    \begin{equation*}
+        H=[-P^T|I_3]=
+        \begin{bmatrix}
+            1&1&0&1&1&0&0\\
+            1&0&1&1&0&1&0\\
+            0&1&1&1&0&0&1
+        \end{bmatrix}
+    \end{equation*}
+
+    \noindent
+    For example, encoding information bits $[1 1 0 0]$ gives
+
+    \begin{equation*}
+        \begin{bmatrix}
+            1&1&0&0
+        \end{bmatrix}
+        \times
+        \begin{bmatrix}
+            1&0&0&0&1&1&0\\
+            0&1&0&0&1&0&1\\
+            0&0&1&0&0&1&1\\
+            0&0&0&1&1&1&1
+        \end{bmatrix}
+        \equiv
+        \begin{bmatrix}
+            1&1&0&0&0&1&1
+        \end{bmatrix}
+    \end{equation*}
+
+    \noindent
+    Decoding received codeword $c'=[1100011]$ with syndrome decoding results in $[000]$ when no errors are detected. However, in our example an error was introduced in the fifth position of codeword $c'=[1100111]$, so we can expect a syndrome with non-zero elements.
+
+    \begin{equation*}
+        c' \times H^T =
+        \begin{bmatrix}
+            1&1&0&0&\underline{1}&1&1
+        \end{bmatrix}
+        \times
+        \begin{bmatrix}
+            1&1&0\\
+            1&0&1\\
+            0&1&1\\
+            1&1&1\\
+            \underline{1}&\underline{0}&\underline{0}\\
+            0&1&0\\
+            0&0&1
+        \end{bmatrix}
+        \equiv
+        \begin{bmatrix}
+            1&0&0
+        \end{bmatrix}
+    \end{equation*}
+
+    \noindent
+    The value $[100]$ can be looked up in parity check matrix $H$ and tells that the error occurred in the fifth position from the left. Correction based on syndrome requires more steps and asks for a matrix of all single error vectors. Codeword $c=[1100011]$ and received codeword $c=[1100111]$ give an error vector of $e=[0000100]$ or $c=c'+e$. Since we already know that $s=c' \cdot H^T$ and an error-free $c \cdot H^T$ has a syndrome with all zero elements, we now substitute $c'$ with $c+e$ because $c=c'+e$ is equivalent to $c'=c+e$ in binary.
+
+    \begin{align*}
+        s &= c' \cdot H^T\\
+          &= (c+e) \cdot H^T\\
+          &= c \cdot H^T + e \cdot H^T\\
+          &= 0 + e \cdot H^T\\
+          &= e \cdot H^T
+    \end{align*}
+
+    \noindent
+    We can conclude that the syndrome solely depends on the error pattern and not on the transmitted codeword.
 
 
     \section{Cyclic Codes}
