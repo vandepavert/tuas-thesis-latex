@@ -1,4 +1,65 @@
-\chapter{Visualisation}
-\section{Bit Stream Encoding}
-\section{Cross-interleaved Reed-Solomon Code}
-\section{Decoding}
+\documentclass[../main.tex]{subfiles}
+\DoIfAndOnlyIfStandAlone{%
+    \externaldocument{linear-block-codes}%
+    \setcounter{chapter}{3}%
+}%
+
+\begin{document}
+
+    \chapter{Visualisation}
+
+    We consider two kinds of errors: random errors, which are distributed randomly among individual bits; and burst errors, which occur in consecutive groups of hundreds of bits. Burst errors are usually the result of, for example, fingerprints, dust and scratches on the disc surface \autocite{wicker1999reed}.
+
+
+    Additionally to the BSC as described in \Cref{sec:maximum-likelihood-decoding} we should mention the Binary Erasure Channel (BEC), in case a codeword is transmitted, but nothing is received. Let $c$ be the transmitted code with alphabet $\{0,1\}$, let $r$ be the received code with alphabet $\{0,1,e\}$ where $e$ denotes the erasure. This channel is characterised by the following conditional probabilities:
+
+    \begin{align*}
+        P(r=0 | c=0) &= 1-p\\
+        P(r=e | c=0) &= p\\
+        P(r=1 | c=0) &= 0\\
+        P(r=0 | c=1) &= 0\\
+        P(r=e | c=1) &= p\\
+        P(r=1 | c=1) &= 1-p
+    \end{align*}
+
+    \begin{figure}[htp]
+        \begin{center}
+            \begin{tikzpicture}[
+                            > = latex,
+                node distance = 4em and 15em,
+                   bit/.style = {rectangle, draw=black, thick, minimum size=7mm}
+                ]
+                % nodes
+                \node[bit]    (topleft)                                                 {0};
+                \node[bit]    (topright)      [right=of topleft]                        {0};
+                \node[bit]    (bottomleft)    [below=of topleft]                        {1};
+                \node[bit]    (bottomright)   [right=of bottomleft]                     {1};
+                \node[bit]    (erasure)       at \findmid{0.5}{topright}{bottomright}   {$e$};
+
+                % labels
+                \node[left=1cm]  at \findmid{0.5}{topleft}{bottomleft}   {$c$};
+                \node[right=1cm] at \findmid{0.5}{topright}{bottomright} {$r$};
+
+
+                % lines
+                \draw[->,line width=1pt] (topleft.east) -- (topright.west) node[midway, above] {$1-p$};
+                \draw[->,line width=1pt] (topleft.east) -- (erasure) node[pos=0.9, above] {$p$};
+
+                \draw[->,line width=1pt] (bottomleft.east) -- (bottomright.west) node[midway, below] {$1-p$};
+                \draw[->,line width=1pt] (bottomleft.east) -- (erasure)  node[pos=0.9, below] {$p$};
+            \end{tikzpicture}
+        \end{center}
+        \caption{Model of the binary symmetric channel (BEC) \autocite{mackay2003information}}
+        \label{fig:binary_erasure_channel}
+    \end{figure}
+
+
+    \section{Bit Stream Encoding}
+
+
+    \section{Cross-interleaved Reed-Solomon Code}
+
+
+    \section{Decoding}
+
+\end{document}
