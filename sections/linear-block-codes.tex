@@ -9,6 +9,7 @@
     \chapter{Linear Block Codes}
 
     \section{Hamming weight, Minimum Distance and Code Rate}
+
     The Hamming weight $w_H(x)$ of a codeword or vector $x$ is defined as the amount of non-zero elements or vector coordinates, which ranges from zero to length $n$ of said codeword.
 
     \begin{equation*}
@@ -74,6 +75,7 @@
 
 
     \section{Singleton Bound}
+
     It is preferable to have a large minimum distance $d$ so that many errors can be corrected. Also, a large amount of codewords $M$ would allow for efficient use of bandwidth when transmitting over a noisy channel. Unfortunately, increasing $d$ tends to increase $n$ or decrease $M$. The Singleton bound is an upper bound for $M$ in terms of $n$ and $d$. A code that satisfies the Singleton bound is called a MDS code (maximum distance separable). The Singleton bound can be written as
 
     \begin{equation*}
@@ -85,6 +87,7 @@
 
 
     \section{Maximum-likelihood Decoding}
+
     There are two principles of decoding. In hard-decision decoding the received bits are believed to be either 1 or 0 in binary transmission. The decoding is done bit by bit. In soft-decision decoding, the received codewords may contain samples of bits with many values, not just 1 or 0. Calculating the closest error-free codeword is more complicated but soft-decision decoding has better performance than the hard-decision decoding.
 
     Assuming hard-decision decoding is used, the received codeword is decoded into its closest codeword measured by its smallest Hamming distance. This minimum probability of error principle is called Maximum-Likelihood or Minimum Distance Decoding \autocite{geisel1990tutorial}.
@@ -104,6 +107,7 @@
 
 
     \section{Hamming Codes}
+
     Hamming constructed a code where he added three additional bits to four information bits. These additional or parity bits are chosen based on the information bits in the following manner:
 
     \begin{align*}
@@ -357,6 +361,7 @@
 
 
     \section{Syndrome Decoding} \label{sec:syndrome_decoding}
+
     \autocite{trappe2006introduction} define linear $(n,k)$ code of dimension $k$ and length $n$ over a field $F$ as a $k$-dimensional subspace of $F^n$. For example, a linear binary code, of length $n$ and dimension $k$ is a set of $2^k$ binary codewords or $n$-tuples, such that the sum of any two codewords is always a codeword. To construct such a linear $(n,k)$ code, we choose a $k \times n$ matrix known as generator matrix. The rows have to be linearly independent to produce unique codewords.
 
     Generator matrix $G$ is taken so that $G=[I_k,P]$, where $I_k$ is the $k \times k$ identity matrix which determine the codewords and $P$ is a $k \times (n-k)$ matrix that provides redundancy, the parity matrix. Now every codeword $c$ of code $C$ can be expressed as a linear combination of rows of $G$ by $c=i \cdot G$. We can now calculate the generator matrix for a systematic representation. For example, a systematic Hamming (7,4) code has the following generator matrix:
@@ -444,17 +449,163 @@
 
     \section{Cyclic Codes}
 
+    Cyclic codes are widely used in data communication because their structure makes encoder and decoder circuitry simple. \autocite{hill1986first} defines code $C$ as cyclic $(n,k)$ code if $C$ is a linear code of length $n$ over a finite field and if any cyclic shift of a codeword is also a codeword. Thus,
+
+    \begin{equation*}
+        (c_0, c_1, c_2, \dots, c_{n-1}) \in  C \text{ and } (c_{n-1}, c_0, c_1, \dots, c_{n-2}) \in C.
+    \end{equation*}
+
+    Let $g(x)$ be the polynomial with the smallest degree. By dividing its highest coefficient, we may assume that the highest non-zero coefficient of $g(x)$ is 1. The polynomial $g(x)$ is called the generator polynomial for $C$, which must be a divisor of $x^n-1$ (in a binary field this is equal to $x^n+1$) with a degree of $n-k$. Subsequently, every cyclic code is a polynomial \autocite{trappe2006introduction}. The encoder for cyclic codes is then
+
+    \begin{equation*}
+        c(x)=i(x) \cdot g(x)
+    \end{equation*}
+
+    \noindent
+    where $c(x)$ is the polynomial with degree $n-1$ of codeword $(c_0, c_1, c_2, \dots, c_{n-1})$ which is calculated as
+
+    \begin{align*}
+        c(x) &= \sum_{i=0}^{n-1} c_i \cdot x^i\\
+             &= c_0 + c_1x + c_2x^2 + \dots +  c_{n-1}x^{n-1}
+    \end{align*}
+
+    \noindent
+    and $i(x)$ is the information polynomial of degree $k-1$. Generator polynomial $g(x)$ must be of degree $n-k$.
+
 
     \section{BCH Codes}
 
-
-    \section{Generating BCH Code}
-
-
-    \section{Decoding BCH Code}
+    A BCH code is a cyclic polynomial code over a finite field with a particularly chosen generator polynomial. Hamming codes are the subset of BCH codes with $k=2^m-1-m$ and have an error correction of 1. Generally, a family of $t$-error correcting codes defined over finite fields $GF(q)$, where $2t+1<q$, are BCH codes or RS codes \autocite{hill1986first}. The main advantage of BCH codes is the ease with which they can be decoded using syndrome and many good decoding algorithms exist. A well-known decoding algorithm is the Berlekamp-Massey algorithm. This allows very simple electronic hardware to perform the task, making the need for a computer unnecessary. This implies that a decoding device may be small and consume little power. BCH codes allow control over block length and acceptable error thresholds, which makes them very flexible. This indicates that code can be designed to meet custom requirements. Another reason they are important is that there exist good decoding algorithms that correct multiple errors. Hocquenghem, as well as Bose and Ray-Chaudhuri, discovered the class of BCH codes, but not the decoding. Peterson developed the first decoding algorithm in 1960 followed by refinement from Berlekamp, Massey and many others \autocite{trappe2006introduction}.
 
 
+    \subsection{Generating BCH Code}
+
+    It is easy to generalise the construction of a $t$-error-correcting code of length $n=2^m-1$ over $GF(q)=\{0, 1, ..., q-1\}$ provided $2t+1 \leq n \leq q-1$. According to \autocite{hill1986first} it is not difficult to construct a binary BCH code over an extension field $GF(q^m)$. In order to obtain a cyclic code only the generator polynomial $g(x)$ is needed. For any integer $m \geq 3$ and $t < 2^{m-1}$, there exists a primitive BCH code with parameters:
+
+    \begin{align*}
+              n &= 2^m - 1\\
+            n-k &\leq m \cdot t\\
+        d_{min} &\leq 2t + 1
+    \end{align*}
+
+    Let $\alpha$ be a primitive $n$-th root of unity of $GF(2^m)$. For $1 \leq i \leq t$, let $m_{2i-1}(x)$ be the minimum polynomial of $\alpha_{2i-1}$. The degree of $m_{2i-1}(x)$ is $m$ or $a$ factor of $m$. The generator polynomial $g(x)$ of a $t$-error-correcting primitive BCH codes of length $2^m-1$ is given by
+
+    \begin{equation*}
+        g(x) = LCM \{m_1(x), m_2(x), m_3(x), ..., m_{2t-1}(x), m_{2t}(x)\}
+    \end{equation*}
+
+    \noindent
+    with $LCM$ being Least Common Multiple, and because every even power of a primitive element has the same minimal polynomial as some odd power of the element, then $g(x)$ can be reduced to
+
+    \begin{equation*}
+        g(x) = LCM \{m_1(x), m_3(x), ..., m_{2t-1}(x)\}
+    \end{equation*}
+
+    \noindent
+    The degree of $g(x)$ is $m \cdot t$ or less and so is the number of parity check bits, therefore $n-k \leq m \cdot t$ \autocite{lint1999introduction}.
+
+    Generally a code is a BCH code over $GF (q )$ with $m , n , d , c \in N$ chosen such that q is a prime power and $2 \leq d \leq n$. Also, $m$ is the multiplicative order of $q$ modulo $n$ and $n$ is not divisible by $q$, so the greatest common divisor of $n$ and $q$ is 1 \autocite{lidl1998applied}. In special circumstances it is that,
+
+    \begin{itemize}
+        \item A BCH code with $c=1$ is called a narrow-sense BCH code;
+        \item A BCH code with $n = q^m-1$ is called primitive;
+        \item A narrow-sense BCH code with $n = q^m-1$ is called a Reed-Solomon code.
+    \end{itemize}
+
+    The consecutive roots of the generator polynomial may run from $\alpha^c, \dots, \alpha^{c+d-2}$ instead of $\alpha, \dots, \alpha^{d-1}$. As before, let $\alpha$ be a primitive $n$-th root of unity in $GF(q^m)$, and let $m_i(x)$ be the minimal polynomial over $GF(q)$ of $\alpha_i$ for all $i$. The generator polynomial of the BCH code is defined as the least common multiple $g(x) = LCM \{m_c(x), \cdots, m_{c+d-2}(x)\}$ \autocite{trappe2006introduction}.
+
+
+    \subsection{Decoding BCH Code}
+
+    BCH codes can be decoded in many way and it is most common that
+
+    \begin{itemize}
+        \item Syndromes values for are calculated for the received codeword;
+        \item Error polynomials are calculated;
+        \item Roots of these polynomials are calculated to obtain the location of errors;
+        \item Error values are calculated at these locations.
+    \end{itemize}
+
+    Let code $C$ be a binary BCH code with distance $d \geq 3$. $C$ is a cyclic code of length $n$, with generating polynomial $g(x)$. There is a $n$-th root of unity $\alpha$ such that
+
+    \begin{equation*}
+        g(\alpha^{k+1}) = g(\alpha^{k+2}) = 0
+    \end{equation*}
+
+    \noindent
+    for some integer $k$.
+
+    \begin{equation*}
+        \text{Let } H =
+        \begin{bmatrix}
+            1 & \alpha^{(k+1)} & \alpha^{2(k+1)} & \dots & \alpha^{(n-1)(k+1)}\\
+            1 & \alpha^{(k+2)} & \alpha^{2(k+2)} & \dots & \alpha^{(n-1)(k+2)}
+        \end{bmatrix}
+    \end{equation*}
+
+    \noindent
+    If $c = (c_0, \dots, c_{n-1})$ is a codeword, then polynomial $m(x) = c_0 + c_1x + ... + c_{n-1}x^{n -1}$ is a multiple of $g(x)$, so
+
+    \begin{equation*}
+        m(\alpha^{k+1}) = m(\alpha^{k+2}) = 0
+    \end{equation*}
+
+    \noindent
+    This may be rewritten in terms of $H$:
+
+    \begin{equation*}
+        c \cdot H^T = [c_0, \dots, c_{n-1}] \cdot
+        \begin{bmatrix}
+            1 & 1\\
+            \alpha^{(k+1)} & \alpha^{(k+2)}\\
+            \alpha^{2(k+1)} & \alpha^{2(k+2)}\\
+            \vdots & \vdots\\
+            \alpha^{(n-1)(k+1)} & \alpha^{(n-1)(k+2)}
+        \end{bmatrix}
+        = 0
+    \end{equation*}
+
+    \noindent
+    $H$ is not necessarily a parity matrix for $C$, however, it can correct an error.
+
+    Suppose codeword $c'=c+e$ is received with error vector $e=(e_0, ..., e_{n-1})$ . Assuming that there is one error, the algorithm for correcting one error is to write $c' \cdot H^T = (s_1, s_2)$.
+
+    \begin{itemize}
+        \item If $s_1 = 0$ then there is either no error or more than one error and we stop here.
+        \item If $s_1 \neq 0$, take $\frac{s_2}{s_1}$ which results in a power $\alpha^{j-1}$ of $\alpha$.
+    \end{itemize}
+
+    The error is in position $j$ and $e_j=1$. Subtracting the error vector $e$ from the received codeword $c'$ gives the corrected codeword $c'_r$. For binary BCH codes it is only necessary to calculate the position, because the error value is always equal to 1. In non-binary BCH codes an additional error value polynomial is needed \autocite{trappe2006introduction}.
+
+
+    \section{Reed-Solomon codes}
+
+    RS codes, which are BCH codes, are used in applications such as spacecraft communications, compact disc players, disk drives, and two-dimensional bar codes. According to \autocite{bossert1999channel} the relationship between BCH and RS codes is such that RS codes comprise a subset of BCH codes and occasionally BCH codes comprise a subset of RS codes. \autocite{lint1999introduction} defines an RS code as a primitive BCH code of length $n=q-1$ over $GF(q)$.
+
+
+    \subsection{Generating a Reed-Solomon code}
+
+    Let $GF(q)$ be a finite field with $q$ elements and it generate a rather specific BCH code $C$ over $GF(q)$ of length $n$, called a Reed-Solomon code. Let $\alpha$ be a primitive $n$-th root of unity of $GF(q)$ and let code $C$ have a length of $n=q-1$. Now take $d$ so that $1 \leq d \leq n$ and the generator polynomial $g(x)$ is given by
+
+    \begin{align*}
+        g(x) &= \prod_{i=1}^{d-1} (x-\alpha^i)\\
+             &= (x-\alpha)(x-\alpha^2)\dots(x-\alpha^{d-1})
+    \end{align*}
+
+    \noindent
+    \autocite{trappe2006introduction} state that the minimum distance for $C$ is at least $d$. Since $g(x)$ is a polynomial of degree $d-1$, it has at most $d$ non-zero coefficients. Therefore, the codeword corresponding to the coefficients of $g(x)$ has a weight of at most $d$. It follows that $C$ has a weight of exactly $d$ and the dimension of $C$ is $n$ minus the degree of $g(x)$
+
+    \begin{align*}
+        n-deg(g) &= n-(d-1)\\
+                 &= n+1-d
+    \end{align*}
+
+    \noindent
+    Therefore, a Reed-Solomon code is a cyclic $(n, n+1-d, d)$ code with codewords corresponding to polynomials, where each $f(x)$ is a polynomial with coefficients in $GF(q)$ that cannot be factored into lower degree polynomials while assuming that the highest non-zero coefficient is 1:
+
+    \begin{equation*}
+        g(x) \cdot f(x) \text{ with } deg(f) \leq n-d
+    \end{equation*}
+
+    It follows that there are $q$ choices for each $n-d+1$ coefficients of $f(x)$, and thus there are $q$ $n-d+1$ codewords in code $C$. Therefore, an RS code is a MDS code since it makes the Singleton bound an equality.
 \end{document}
-
-
-
