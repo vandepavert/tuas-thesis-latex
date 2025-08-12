@@ -89,18 +89,22 @@
                 node distance = 4em and 15em,
                    bit/.style = {rectangle, draw=black, thick, minimum size=7mm}
                 ]
-                %Nodes
+                % nodes
                 \node[bit]    (topleft)                               {0};
                 \node[bit]    (topright)      [right=of topleft]      {0};
                 \node[bit]    (bottomleft)    [below=of topleft]      {1};
                 \node[bit]    (bottomright)   [right=of bottomleft]   {1};
 
-                %Lines
-                \draw[->,line width=1pt] (topleft.east) -- (topright.west) node[midway, above] {1-p};
-                \draw[->,line width=1pt] (topleft.east) -- (bottomright) node[pos=0.9, above] {p};
+                % labels
+                \node[left=1cm]  at \findmid{0.5}{topleft}{bottomleft}   {$c$};
+                \node[right=1cm] at \findmid{0.5}{topright}{bottomright} {$r$};
 
-                \draw[->,line width=1pt] (bottomleft.east) -- (bottomright.west) node[midway, above] {1-p};
-                \draw[->,line width=1pt] (bottomleft.east) -- (topright)  node[pos=0.9, below] {p};
+                % lines
+                \draw[->,line width=1pt] (topleft.east) -- (topright.west) node[midway, above] {$1-p$};
+                \draw[->,line width=1pt] (topleft.east) -- (bottomright) node[pos=0.9, above] {$p$};
+
+                \draw[->,line width=1pt] (bottomleft.east) -- (bottomright.west) node[midway, below] {$1-p$};
+                \draw[->,line width=1pt] (bottomleft.east) -- (topright)  node[pos=0.9, below] {$p$};
             \end{tikzpicture}
         \end{center}
         \caption{Model of the binary symmetric channel (BSC)}
