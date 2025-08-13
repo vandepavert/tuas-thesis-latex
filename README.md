@@ -8,4 +8,4 @@ Rewriting my B.Eng. (IT) thesis in LaTeX using Kile on Kubuntu 24.04 LTS
 - texlive-latex-extra - TeX Live: LaTeX additional packages
 
 
-        $ sudo apt install kile kbibtex texlive-latex-base texlive-latex-extra
+        $ sudo apt install kile kbibtex texlive-latex-base texlive-latex-extra texlive-science
