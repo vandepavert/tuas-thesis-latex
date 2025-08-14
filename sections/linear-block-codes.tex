@@ -139,12 +139,9 @@
 
     \begin{figure}[htp]
         \centering
-        \begin{tikzpicture}[
-                box/.style = {draw, rectangle, minimum size=1cm, align=center},
-            ]
-            \node (data) [box, minimum width=6cm] {$k$ data bytes};
-            \node (parity) [box, right=0cm of data] {$n-k$ parity bytes};
-        \end{tikzpicture}
+        \begin{bytefield}{32}
+            \bitbox{22}{$k$ data bytes} & \bitbox{10}{$n-k$ parity bytes}
+        \end{bytefield}
         \caption{An example of a systematic codeword of length $n$}
         \label{fig:systematic_codeword}
     \end{figure}
