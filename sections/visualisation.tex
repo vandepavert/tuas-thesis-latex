@@ -163,11 +163,11 @@
 
     \newpage
 
+    % commands with parameters
     %----------------------------------------------
-
-    \newcommand{\bits}[4]{
+    \newcommand{\bits}[4]{%
         \begin{bytefield}[
-                bitformatting={\tiny\bfseries},
+                bitformatting={\tiny},
                 bitwidth=auto,
                 bitheight=9pt,
                 bitwidth=0.01\linewidth
@@ -179,73 +179,114 @@
         \end{bytefield}%
     }%
 
-    \newcommand{\periods}[1]{
+    % frame wordbox with bitbox width of #1
+    \newcommand{\sframe}[2][8]{%
         \begin{bytefield}[
-                bitformatting={\tiny\bfseries},
+                bitformatting={\tiny},
                 bitwidth=auto,
                 bitheight=9pt,
                 bitwidth=0.01\linewidth
-            ]{#1*8}
-%            \begin{rightwordgroup}{\scriptsize1 frame}
-                \wordbox{1}{frame}\\
-%            \end{rightwordgroup} \\
-%            \begin{rightwordgroup}{\scriptsize6 sampling periods}
-            \foreach \x in {1,...,#1} {%
-                \bitbox{8}{\tiny\x}
-            }
-%            \end{rightwordgroup} \\
+            ]{#2*#1}
+%            \wordbox{1}{}
+            \wordbox{1}{\tiny 1 frame} % debugging: remove this line
         \end{bytefield}%
     }%
 
+    % #2 periods of bitboxes with optional size #1 (default: 8)
+    \newcommand{\periods}[2][8]{%
+        \begin{bytefield}[
+                bitformatting={\tiny},
+                bitwidth=auto,
+                bitheight=9pt,
+                bitwidth=0.01\linewidth
+            ]{#2*#1}
+            \foreach \x in {1,...,#2} {%
+%                \bitbox{#1}{}
+               \bitbox{#1}{\tiny\x} % debugging: remove this line
+            }
+        \end{bytefield}%
+    }%
+
+    % The figure
+    % for debugging: every node is filled grey to see their proper box size
+    %----------------------------------------------
     \begin{figure}[h!tp]
         \centering
         \begin{tikzpicture}[
+            every node/.append style = {thin, minimum size=2.5mm,inner sep=0mm,fill=gray!15},
                         > = latex,
-               bit/.style = {rectangle, draw=black, thin, minimum size=2.5mm},
-            sample/.style = {minimum size=2.5mm,
-                            inner sep=0pt,
-                            outer sep=0pt},
-            symbol/.style = {align=center, inner sep=0pt, fill=gray!15},
-             frame/.style = {fill=gray!25, circle, draw=blue},
-            wordbox/.code = {\\\wordbox{1}{Field: #1}},
-             bitbox/.code = {\\\bitbox{1}{#1}},
+               bit/.style = {rectangle, draw=black},
+            sample/.style = {},
+            symbol/.style = {},
+             frame/.style = {draw=none},
+               dot/.style = {circle, draw, fill, minimum size=1mm, inner sep=0mm, node contents={}},
             ]
-            % 1 frame
-            \coordinate (frame) at (0,0);
-%            \coordinate (time) at (4,0.5);
-%            \draw[<->] (frame) -- +(6cm,0);
-%            \draw[->] (time) -- +(1cm,0) node[right]{t};
+            % NODES & COORDINATES
+            %----------------------------------------------
 
-            % 6 sampling periods
-            \node(samples)
-                [sample,below=of frame]
-                {\periods{6}};
+            % set 1 frame
+            \node(frame) [frame] {\sframe{6}}; % fixme: remove wordbox and draw[<->] from west to east
+
+            % draw 1 frame and 6 sampling periods
+            \node(samples) [sample,below=5mm of frame] {\periods{6}};
+
+            % using calc library to define a coordinate
+            \coordinate(period2) at ($(samples.south west)!0.5!(samples.south)$);
 
             % 32 bits per sampling period
             \node(period)
-                [symbol, below=of samples.south west, label=right:{\tiny32 bits per sampling period}] {\bits{10111001}{01110010}{10001111}{01010010}};
+                [symbol, below=5mm of period2, label=right:{\tiny32 bits per sampling period}] {\bits{10111001}{01110010}{10001111}{01010010}};
 
             % 4 symbols of 8 bits
             \node(symbols)
-                [symbol, below=3mm of period,  label=right:{\tiny4 symbols of 8 bits}]
-                {\bits{ }{ }{ }{ }};
+                [symbol, below=3mm of period, label=right:{\tiny4 symbols of 8 bits}]
+                {\periods[8]{4}};
 
             % 24 audio symbols
+            \node(audio) [sample,below=2cm of samples] {\periods[2]{24}};
+
+            % using calc library to define coordinates
+            \coordinate(audio5) at ($(audio.north west)!0.333!(audio.north)$);
+            \coordinate(audio8) at ($(audio.north west)!0.667!(audio.north)$);
 
 
-            % connecting symbols
-            \draw[dotted] (period.south west) -- (symbols.north west);
-            \draw[dotted] \findmid{0.5}{period.south west}{period.south} --
-                          \findmid{0.5}{symbols.north west}{symbols.north} ;
-            \draw[dotted] (period.south) -- (symbols.north);
-            \draw[dotted] \findmid{0.5}{period.south east}{period.south} --
-                          \findmid{0.5}{symbols.north east}{symbols.north} ;
-            \draw[dotted] (period.south east) -- (symbols.north east);
+            % CONNECTIONS
+            %----------------------------------------------
 
-            % connecting periods to one sampling period
-            \draw[dashed] \findmid{0.333}{samples.south west} {samples.south} -- (period.north west);
-            \draw[dashed] \findmid{0.667}{samples.south west} {samples.south} -- (period.north east);
+            % frame to samples
+            \draw[dashed] (frame.south west) -- (samples.north west);
+            \draw[dashed] (frame.south east) -- (samples.north east);
 
+            % periods to one sampling
+            \draw[name path=line1]
+                            \findmid{0.333}{samples.south west}{samples.south} --
+                            (period.north west);                                            % name this line 1
+            \draw[]         \findmid{0.667}{samples.south west}{samples.south} --
+                            (period.north east);
+
+            % sampling period bits to symbols
+            \draw[dashed]   (period.south west) -- (symbols.north west);
+            \draw[dashed]   \findmid{0.5}{period.south west}{period.south} --
+                            \findmid{0.5}{symbols.north west}{symbols.north} ;
+            \draw[dashed]   (period.south) -- (symbols.north);
+            \draw[dashed]   \findmid{0.5}{period.south east}{period.south} --
+                            \findmid{0.5}{symbols.north east}{symbols.north} ;
+            \draw[dashed]   (period.south east) -- (symbols.north east);
+
+            % sampling period bits to audio symbols
+            \draw[dashed, name path=line2] (symbols.south west) -- (audio5.north);          % name this line 2
+            \draw[dashed] (symbols.south east) -- (audio8.north);
+
+            % samples to audio symbols
+            \draw[draw=none, name path=line3] (samples.south west) -- (audio.north west);   % name this invisible line 3
+            \path [name intersections={of=line1 and line3,by=a}];                           % find intersection a
+            \draw [dashed] (samples.south west) -- (a);                                     % draw line to intersection b
+            \path [name intersections={of=line2 and line3,by=b}];                           % find intersection b
+            \draw [dashed] (b) -- (audio.north west);                                       % draw line from intersection b
+            \draw[dashed] (samples.south east) -- (audio.north east);
+
+            % RIGHT SIDE
+            %----------------------------------------------
 
 
         \end{tikzpicture}
