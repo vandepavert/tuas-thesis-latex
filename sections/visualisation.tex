@@ -65,9 +65,10 @@
     \section{Bit Stream Encoding}
     An analog-to-digital converter (ADC) converts sound into a digital data stream at a sample rate of 44.1 kHz, which, according to Nyquist's sampling theorem, is sufficient to reproduce a maximum audio frequency of 20 kHz. The 32-bit stereo sample has 16 bits for the left and 16 bits for the right channel. Six of these samples are then grouped in a frame of 32 audio bits, 16-bit per audio channel. The net audio bit stream is therefore $44100 \times 32=1.41 Mbits/s$. These samples are then each divided to form 24 8-bit symbols per frame. \Cref{fig:bit_streams} shows this as bit stream $B_1$. In $B_2$, 8 parity symbols and a control and display symbol (C \& D) are added such that each frame now contains 33 data symbols. The C \& D symbol contains information for the listener which can be shown if the player has a display. Subsequently an eight-to-fourteen (EFM) code is used to translate these into 14-bit symbols plus three merging bits in $B_3$. This brings the net data bit stream rate to $1.94 Mbits/s$. Then a synchronisation pattern of 27 bits is added to the frame to obtain bit stream Bi of $33 \times 17+27=588$ channel bits per frame in such a way that each 1 indicates a pit edge; it therefore makes no difference if pit and land were interchanged on a disc. The total bit rate after all these data manipulations is approximately $4.32 Mbits/s$ \autocite{wicker1999reed}.
 
+\ifx {false}
     \newpage
 
-    % Test page for figures
+    Test page for figures. Remove before publishing
     %----------------------------------------------
 
     \begin{figure}[h!tp]
@@ -162,15 +163,17 @@
     %----------------------------------------------
 
     \newpage
+\fi
 
     % commands with parameters
     %----------------------------------------------
+
+    % 4 boxes with 8 bits
     \newcommand{\bits}[4]{%
         \begin{bytefield}[
                 bitformatting={\tiny},
-                bitwidth=auto,
                 bitheight=9pt,
-                bitwidth=0.01\linewidth
+                bitwidth=0.0125\linewidth
             ]{32}
             \bitbox{8}{\tiny$#1$}
             \bitbox{8}{\tiny$#2$}
@@ -179,13 +182,26 @@
         \end{bytefield}%
     }%
 
+    % 2 boxes with 8 bits, #1 8 or 14 bits, #2 first byte, #3 second byte
+    \newcommand{\efm}[3][8]{%
+        \begin{bytefield}[
+                bitformatting={\tiny\centering\itshape},
+                bitheight=9pt,
+                bitwidth=0.0175\linewidth*8/#1
+            ]{2*#1}
+            \bitbox{#1}{\tiny$#2$}
+            \bitbox{1}{}
+            \bitbox{#1}{\tiny$#3$}
+            \bitbox{1}{}
+        \end{bytefield}%
+    }%
+
     % frame wordbox with bitbox width of #1
     \newcommand{\sframe}[2][8]{%
         \begin{bytefield}[
-                bitformatting={\tiny},
-                bitwidth=auto,
+                bitformatting={\tiny\centering\itshape},
                 bitheight=9pt,
-                bitwidth=0.01\linewidth
+                bitwidth=0.0125\linewidth,
             ]{#2*#1}
 %            \wordbox{1}{}
             \wordbox{1}{\tiny 1 frame} % debugging: remove this line
@@ -195,10 +211,24 @@
     % #2 periods of bitboxes with optional size #1 (default: 8)
     \newcommand{\periods}[2][8]{%
         \begin{bytefield}[
-                bitformatting={\tiny},
-                bitwidth=auto,
+                bitformatting={\tiny\centering\itshape},
                 bitheight=9pt,
-                bitwidth=0.01\linewidth
+                bitwidth=0.0125\linewidth,
+            ]{#2*#1}
+            \foreach \x in {1,...,#2} {%
+%                \bitbox{#1}{}
+               \bitbox{#1}[bgcolor=gray!50]{\tiny\x} % debugging: remove this line
+            }
+        \end{bytefield}%
+    }%
+
+    % #2 data symbols on a #3 symbol space of bitboxes with optional size #1 (default: 8)
+    % and an array #4 telling which bytes to colour
+    \newcommand{\symbols}[4][8]{%
+        \begin{bytefield}[
+                bitformatting={\tiny\centering\itshape},
+                bitheight=9pt,
+                bitwidth=0.0125\linewidth*#3/#2,
             ]{#2*#1}
             \foreach \x in {1,...,#2} {%
 %                \bitbox{#1}{}
@@ -206,6 +236,7 @@
             }
         \end{bytefield}%
     }%
+
 
     % The figure
     % for debugging: every node is filled grey to see their proper box size
@@ -226,6 +257,8 @@
 
             % set 1 frame
             \node(frame) [frame] {\sframe{6}}; % fixme: remove wordbox and draw[<->] from west to east
+            \coordinate(frame0) at (frame.west);
+
 
             % draw 1 frame and 6 sampling periods
             \node(samples) [sample,below=5mm of frame] {\periods{6}};
@@ -235,7 +268,8 @@
 
             % 32 bits per sampling period
             \node(period)
-                [symbol, below=5mm of period2, label=right:{\tiny32 bits per sampling period}] {\bits{10111001}{01110010}{10001111}{01010010}};
+                [symbol, below=5mm of period2, label=right:{\tiny32 bits per sampling period}]
+                {\bits{10111001}{01110010}{10001111}{01010010}};
 
             % 4 symbols of 8 bits
             \node(symbols)
@@ -243,11 +277,22 @@
                 {\periods[8]{4}};
 
             % 24 audio symbols
-            \node(audio) [sample,below=2cm of samples] {\periods[2]{24}};
+            \node(audio) [sample,below=2cm of samples] {\symbols[2]{24}{24}{ }};
 
             % using calc library to define coordinates
             \coordinate(audio5) at ($(audio.north west)!0.333!(audio.north)$);
             \coordinate(audio8) at ($(audio.north west)!0.667!(audio.north)$);
+
+            % 33 data symbols
+            \node(data) [sample,below=1cm of audio] {\symbols[2]{33}{24}{ }};
+
+            % EFM
+            \node(efm8) [sample,below=5mm of data] {\efm[8]{01100001}{01000111}};
+            \node(efm14) [sample,below=3mm of efm8] {\efm[14]{10000100100010}{00100100100100}};
+
+
+            % 588 channel bits
+            \node(channel) [sample,below=2cm of data] {\symbols[2]{33}{24}{ }};
 
 
             % CONNECTIONS
@@ -274,18 +319,26 @@
             \draw[dashed]   (period.south east) -- (symbols.north east);
 
             % sampling period bits to audio symbols
-            \draw[dashed, name path=line2] (symbols.south west) -- (audio5.north);          % name this line 2
-            \draw[dashed] (symbols.south east) -- (audio8.north);
+            \draw[dashed]   (symbols.south west) -- (audio5.north) [name path=line2];       % name this line 2
+            \draw[dashed]   (symbols.south east) -- (audio8.north);
 
             % samples to audio symbols
-            \draw[draw=none, name path=line3] (samples.south west) -- (audio.north west);   % name this invisible line 3
-            \path [name intersections={of=line1 and line3,by=a}];                           % find intersection a
-            \draw [dashed] (samples.south west) -- (a);                                     % draw line to intersection b
-            \path [name intersections={of=line2 and line3,by=b}];                           % find intersection b
-            \draw [dashed] (b) -- (audio.north west);                                       % draw line from intersection b
-            \draw[dashed] (samples.south east) -- (audio.north east);
+            \draw[draw=none](samples.south west) -- (audio.north west) [name path=line3];   % name this invisible line 3
+            \path[name intersections={of=line1 and line3,by=a}];                            % find intersection a
+            \draw[dashed]   (samples.south west) -- (a);                                    % draw line to intersection b
+            \path[name intersections={of=line2 and line3,by=b}];                            % find intersection b
+            \draw[dashed]   (b) -- (audio.north west);                                      % draw line from intersection b
+            \draw[dashed]   (samples.south east) -- (audio.north east);
 
-            % RIGHT SIDE
+            % audio symbols to data symbols
+            \draw[dashed]   (audio.south west) -- (data.north west);
+            \draw[dashed]   (audio.south east) -- (data.north east);
+
+
+            % LEFT SIDE TEXT
+            %----------------------------------------------
+
+            % RIGHT SIDE TEXT
             %----------------------------------------------
 
 
