@@ -65,7 +65,7 @@
     \section{Bit Stream Encoding}
     An analog-to-digital converter (ADC) converts sound into a digital data stream at a sample rate of 44.1 kHz, which, according to Nyquist's sampling theorem, is sufficient to reproduce a maximum audio frequency of 20 kHz. The 32-bit stereo sample has 16 bits for the left and 16 bits for the right channel. Six of these samples are then grouped in a frame of 32 audio bits, 16-bit per audio channel. The net audio bit stream is therefore $44100 \times 32=1.41 Mbits/s$. These samples are then each divided to form 24 8-bit symbols per frame. \Cref{fig:bit_streams} shows this as bit stream $B_1$. In $B_2$, 8 parity symbols and a control and display symbol (C \& D) are added such that each frame now contains 33 data symbols. The C \& D symbol contains information for the listener which can be shown if the player has a display. Subsequently an eight-to-fourteen (EFM) code is used to translate these into 14-bit symbols plus three merging bits in $B_3$. This brings the net data bit stream rate to $1.94 Mbits/s$. Then a synchronisation pattern of 27 bits is added to the frame to obtain bit stream Bi of $33 \times 17+27=588$ channel bits per frame in such a way that each 1 indicates a pit edge; it therefore makes no difference if pit and land were interchanged on a disc. The total bit rate after all these data manipulations is approximately $4.32 Mbits/s$ \autocite{wicker1999reed}.
 
-\ifx {false}
+\iffalse
     \newpage
 
     Test page for figures. Remove before publishing
@@ -90,8 +90,13 @@
                 \bitbox{8}{8 more bits}
             \end{rightwordgroup} \\
             \wordbox{2}{A 32-bit field. Note that text wraps within the box.}\\
-            \bitbox{1}{1}  \bitbox{1}{0}  \bitbox{1}{1}  \bitbox{1}{1}
-            \bitbox{1}{1}  \bitbox{1}{0}  \bitbox{1}{0}  \bitbox{1}{1}
+            \begin{rightwordgroup}{\scriptsize 4 symbols of 8 bits}
+                \bitbox{1}{1}  \bitbox{1}{0}  \bitbox{1}{1}  \bitbox{1}{1}
+                \bitbox{1}{1}  \bitbox{1}{0}  \bitbox{1}{0}  \bitbox{1}{1}
+                \bitboxes{1}{01000010}
+                \bitboxes*{1}{01000010}
+                \bitboxes*{1}{01000010}
+            \end{rightwordgroup} \\
         \end{bytefield}
     \end{figure}
 
@@ -162,23 +167,54 @@
 
     %----------------------------------------------
 
+    \newcommand{\bitlabel}[2]{%
+        \bitbox[]{#1}{%
+            \raisebox{0pt}[4ex][0pt]{%
+                \turnbox{45}{\fontsize{7}{7}\selectfont#2}%
+            }%
+        }%
+    }
+    \vspace{10ex}
+    \begin{figure}[h!tp]
+        \centering
+        \begin{bytefield}[bitwidth=1em]{16}
+            \bitlabel{1}{Carry} & \bitlabel{1}{Reserved} &
+            \bitlabel{1}{Parity} & \bitlabel{1}{Reserved} &
+            \bitlabel{1}{Adjust} & \bitlabel{1}{Reserved} &
+            \bitlabel{1}{Zero} & \bitlabel{1}{Sign} &
+            \bitlabel{1}{Trap} & \bitlabel{1}{Interrupt enable} &
+            \bitlabel{1}{Direction} & \bitlabel{1}{Overflow} &
+            \bitlabel{2}{I/O privilege level (12--13)} &
+            \bitlabel{1}{Nested task} & \bitlabel{1}{Reserved} \\
+            \bitheader{0-15} \\
+            \bitboxes{1}{0100000101000000}\\
+            \bitboxes*{1}{0100000101000000}\\
+            \bitbox{1}{0} & \bitbox{1}[bgcolor=gray!50]{1} & \bitbox{1}{0} & \bitbox{1}{0} &
+            \bitbox{1}{0} & \bitbox{1}{0} & \bitbox{1}{0} & \bitbox{1}{1} &
+            \bitbox{1}{0} & \bitbox{1}{1} & \bitbox{1}{0} & \bitbox{1}{0} &
+            \bitbox{1}{0} & \bitbox{1}{0} & \bitbox{1}{0} & \bitbox{1}{0}
+        \end{bytefield}
+    \end{figure}
+
+    %----------------------------------------------
+
     \newpage
 \fi
 
+
     % commands with parameters
     %----------------------------------------------
-
     % 4 boxes with 8 bits
     \newcommand{\bits}[4]{%
         \begin{bytefield}[
-                bitformatting={\tiny},
+                bitformatting={},
                 bitheight=9pt,
                 bitwidth=0.0125\linewidth
-            ]{32}
-            \bitbox{8}{\tiny$#1$}
-            \bitbox{8}{\tiny$#2$}
-            \bitbox{8}{\tiny$#3$}
-            \bitbox{8}{\tiny$#4$}
+            ]{32}%
+            \bitbox{8}{\tiny#1}
+            \bitbox{8}{\tiny#2}
+            \bitbox{8}{\tiny#3}
+            \bitbox{8}{\tiny#4}
         \end{bytefield}%
     }%
 
@@ -217,7 +253,7 @@
             ]{#2*#1}
             \foreach \x in {1,...,#2} {%
 %                \bitbox{#1}{}
-               \bitbox{#1}[bgcolor=gray!50]{\tiny\x} % debugging: remove this line
+               \bitbox{#1}{\tiny\x} % debugging: remove this line
             }
         \end{bytefield}%
     }%
@@ -232,7 +268,11 @@
             ]{#2*#1}
             \foreach \x in {1,...,#2} {%
 %                \bitbox{#1}{}
-               \bitbox{#1}{\tiny\x} % debugging: remove this line
+                \ifnum\x=#4
+                    \bitbox{#1}[bgcolor=gray!50]{\tiny\x} % debugging: remove this line
+                \else
+                    \bitbox{#1}{}
+                \fi
             }
         \end{bytefield}%
     }%
@@ -277,14 +317,14 @@
                 {\periods[8]{4}};
 
             % 24 audio symbols
-            \node(audio) [sample,below=2cm of samples] {\symbols[2]{24}{24}{ }};
+            \node(audio) [sample,below=2cm of samples] {\symbols[2]{24}{24}{15}};
 
             % using calc library to define coordinates
             \coordinate(audio5) at ($(audio.north west)!0.333!(audio.north)$);
             \coordinate(audio8) at ($(audio.north west)!0.667!(audio.north)$);
 
             % 33 data symbols
-            \node(data) [sample,below=1cm of audio] {\symbols[2]{33}{24}{ }};
+            \node(data) [sample,below=1cm of audio] {\symbols[2]{33}{24}{33}};
 
             % EFM
             \node(efm8) [sample,below=5mm of data] {\efm[8]{01100001}{01000111}};
@@ -292,7 +332,7 @@
 
 
             % 588 channel bits
-            \node(channel) [sample,below=2cm of data] {\symbols[2]{33}{24}{ }};
+            \node(channel) [sample,below=2cm of data] {\symbols[2]{33}{24}{1}};
 
 
             % CONNECTIONS
@@ -346,13 +386,43 @@
         \caption{Bit streams in the encoding process}
         \label{fig:bit_streams}
     \end{figure}
-
     %----------------------------------------------
+    \newpage
 
 
-    \section{Cross-interleaved Reed-Solomon Code}
+    \section{Cross-interleaved Reed-Solomon Code (CIRC)}
+
+    Cross-interleaving separates the symbols in a codeword, as codewords undergo a second encoding on a symbol basis. It becomes less likely that a burst from the outer decoder disturbs more than one Reed-Solomon symbol in any one codeword in the inner code.
+
+    Since the information in CIRC is interleaved in time, errors that occur at the input of the error correction system are spread over a large number of frames during decoding. The error correction system can correct a burst of thousands of data bits because the errors are spread out by interleaving. If more than the permitted amount of errors occur, they can only be detected.
+
+    The audio signal degrades gracefully by applying interpolation or muting the output signal. Key parameters to the success of concealment of errors are thoughtful positioning of the left and right audio channels as well as placing audio samples on even- and odd-numbered instants within the interleaving scheme. There are several interleaved structures used in the CD which allow for error detection and correction with a minimum of redundancy.
+
+    A simple interleaving method is block interleaving. In block interleaving, a block of data symbols is written row by row as a $n \times m$ matrix and read column by column. It is obvious that the interleaver requires a memory capacity of $n \times m$ symbols. The CD uses a more effective interleaver, a periodic or convolutional interleaver, known as a cross-interleaver. Before transmission the symbols of the codewords are multiplexed over delay lines with differing delays, combined (demultiplexed) and send to the channel. At the receiver this process is reversed. In \Cref{fig:circ_encoder} two Reed-Solomon codes, $C_1$ and $C_2$, are interleaved cross-wise. Outer code $C_1$ is RS(32,28) and inner code $C_2$ is RS(28,24). The symbols are 8 bits long and are elements of $GF(2^8)$. The code rate is
+
+    \begin{equation*}
+        \frac{k_1}{n_1} \times \frac{k_2}{n_2} = \frac{3}{4}
+    \end{equation*}
+
+    \noindent
+    and for both codes the minimum distance is 5 which allows for a correction of maximum two errors in one code or four erasures. Each information frame contains 6 right and 6 left channel audio samples, denoted by $R$ and $L$. Each 16-bit sample is divided into two 8-bit symbols or bytes (W) and the even- and odd-numbered audio samples are subjected to a delay of two bytes (2D). The 24 bytes are regrouped and the even- and odd-numbered samples are further separated by the parity bytes of code $C_2$ (Q). These 28 bytes are multiplexed and subjected to 28 different delays (1D to 27D) analogous to the convolutional interleaver as mentioned above. As a result of the convolutional interleave, one $C_2$ code is stored in 28 different blocks spread over 109 blocks. The required memory for a delay operator $D=4$ is computed as $4 \times 27 \times 28/2 = 1502$ bytes. Encoder $C_1$ forms four parity bytes (P) after which a delay of 1 byte is inserted every other line in order to separate two adjacent symbol errors which are a result of small burst errors. Parity bytes P are inverted to prevent all zero codewords. This is important for detection of bit insertions or deletions \autocite{wicker1999reed}.
+
+    \newpage
+    %----------------------------------------------
+    \begin{figure}[h!tp]
+        \centering
+        [Placeholder]
+        \caption{Block Diagram of a CIRC encoder by K.A. Schouhamer Immink cited in \autocite{wicker1999reed}}
+        \label{fig:circ_encoder}
+    \end{figure}
+    %----------------------------------------------
+    \newpage
 
 
     \section{Decoding}
+
+    While the encoder has been standardised in the Red Book audio specifications, the decoder strategy has not been standardised. Each manufacturer is, therefore, free to choose their own decoding strategy. Analogous to the encoding process, the error correction system consists of two decoders $D_1$ and $D_2$ . In most strategies, decoder $D_1$ corrects one error. If more than one error may occur in the 32 bits from the demodulator, $D_1$ attaches an erasure flag to the 28 outgoing symbols. Erasures will be spread over a number of codewords at the input of $D_2$. Decoder $D_2$ can at most correct four erasures. If more than four erasures may occur $D_2$ attaches an erasure flag to the 24 outgoing symbols. These flags allow the concealment system to react to the unreliable signal. The maximum fully correctable burst length and the maximum interpolation length are determined by the CIRC format. Four blocks are correctable, since code $C_2$ is quadruple-erasure-correcting and the maximum fully correctable burst error is about 4000 data bits. This corresponds to a track length of 2.5 mm on a CD, where an effective length on track of data bits of about 0.6 µm. About 50 blocks, roughly 12000 bits, can be concealed by interpolation. This corresponds to close to 7.5 mm of track length. Given the standardised format of the CD, a designer of a decoding integrated circuit (IC) can choose a certain decoding strategy \autocite{wicker1999reed}.
+
+    One way of decoding these codes depend on simultaneously solving a linear system of equations (LSE). The Berlekamp-Massey algorithm is a way of solving an LSE, but the inner working of this mechanism is not in the scope of this thesis.
 
 \end{document}
