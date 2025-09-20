@@ -1,1 +1,13 @@
-\chapter{Summary and Conclusion}
+\documentclass[../main.tex]{subfiles}
+\DoIfAndOnlyIfStandAlone{%
+    \setcounter{chapter}{4}%
+}%
+
+\begin{document}
+
+    \chapter{Summary and Conclusion}
+    A forward error correction code can be used effectively to detect and correct burst errors. Cross-interleave schemes with two error-correcting codes allow the outer code to declare burst errors so the inner code can correct these, because they are dispersed over codewords. The design of the interleaver and regrouping data symbols accommodate detection and correction of both random and burst errors while concealment of errors is possible if the correction capacity is exceeded.
+
+    The visualisation of the mechanism of cross-interleaving by K.A. Schouhamer Immink, one of the original designers of the compact disc standard, has explained many aspects of data encoding. However, proper visualisation and mathematical understanding of a decoder may require future studies in discrete mathematics and coding theory.
+
+\end{document}
